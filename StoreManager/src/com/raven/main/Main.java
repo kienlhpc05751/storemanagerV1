@@ -12,6 +12,7 @@ import com.raven.form.Form_3;
 import com.raven.form.Form_4;
 import com.raven.form.Form_Home;
 import com.raven.form.NewJFrame;
+import com.raven.utils.XImage;
 import java.awt.Color;
 import javax.swing.JComponent;
 
@@ -20,7 +21,7 @@ import javax.swing.JComponent;
  * @author RAVEN
  */
 public class Main extends javax.swing.JFrame {
-
+     
     /**
      * Creates new form Main
      */
@@ -33,6 +34,7 @@ public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
+        setIconImage(XImage.getAppicon());
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
         form1 = new Form_1();
