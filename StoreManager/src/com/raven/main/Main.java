@@ -9,9 +9,9 @@ import com.raven.event.EventMenuSelected;
 import com.raven.form.Form_1;
 import com.raven.form.Form_2;
 import com.raven.form.Form_3;
-import com.raven.form.Form_4;
+import com.raven.form.NhanVien;
 import com.raven.form.Form_Home;
-import com.raven.form.NewJFrame;
+//import com.raven.form.NewJFrame;
 import com.raven.utils.XImage;
 import java.awt.Color;
 import javax.swing.JComponent;
@@ -29,7 +29,7 @@ public class Main extends javax.swing.JFrame {
     private Form_1 form1;
     private Form_2 form2;
     private Form_3 form3;
-    private Form_4 form4;
+    private NhanVien form4;
 //    private NewJFrame fa;
 
     public Main() {
@@ -40,7 +40,7 @@ public class Main extends javax.swing.JFrame {
         form1 = new Form_1();
         form2 = new Form_2();
         form3 = new Form_3();
-        form4 = new Form_4();
+        form4 = new NhanVien();
 //       fa = new NewJFrame();
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -55,7 +55,7 @@ public class Main extends javax.swing.JFrame {
                 } else if (index == 3) {
                     setForm(form3);
                 } else if (index == 4) {
-                    setForm(home);
+                    setForm(form4);
 
                 } else if (index == 8){
                     setForm(home);
