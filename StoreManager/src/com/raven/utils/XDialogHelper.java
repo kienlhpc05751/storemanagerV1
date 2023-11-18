@@ -1,5 +1,5 @@
 
-package com.raven.db;
+package com.raven.utils;
 
 import java.awt.Component;
 import javax.swing.JFrame;

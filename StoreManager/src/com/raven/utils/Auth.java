@@ -17,7 +17,7 @@ public class Auth {
     }
 
     public static boolean isManager() {
-        return user.isVaiTro();
+        return user.getVaiTro();
     }
     public static boolean accept(Component fram) {
         if (!Auth.isManager()) {

@@ -15,18 +15,37 @@ import javax.swing.ListSelectionModel;
 public class NhanVienDao extends StoreDao<NhanVien, String> {
 
     @Override
-    public void insert(NhanVien e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void insert(NhanVien model){
+        String sql="INSERT INTO NhanVien (MaNV, TenNV, Matkhau, NgaySinh, Email, Phone, vaiTro, Hinh) VALUES (?, ?, ?, ?,?, ?, ?, ?)";
+        DBHelper.update(sql, 
+                model.getMaNV(), 
+                model.getTenNV(),
+                model.getMatKhau(),  
+                model.getNgaySinh(),
+                model.getEmail(),
+                model.getSDT(),
+                model.getVaiTro(),
+                model.getHinhAnh());
     }
 
     @Override
-    public void update(NhanVien e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(NhanVien model) {
+        String sql="update nhanvien set TenNV = ?, Matkhau = ?, NgaySinh = ?, Email = ?, Phone =?, vaiTro =?, Hinh =? where MaNV = ?";
+        DBHelper.update(sql, 
+                model.getMaNV(), 
+                model.getTenNV(),
+                model.getMatKhau(),  
+                model.getNgaySinh(),
+                model.getEmail(),
+                model.getSDT(),
+                model.getVaiTro(),
+                model.getHinhAnh());
     }
 
     @Override
-    public void delete(String k) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(String MaNV) {
+        String sql="delete from nhanvien where MaNV = ?";
+        DBHelper.update(sql, MaNV);
     }
     
       public List<NhanVien> select() throws SQLException {

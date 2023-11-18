@@ -17,7 +17,7 @@ public class NhanVien {
     Date NgaySinh;
     String Email;
     String SDT;
-    boolean VaiTro;
+    boolean VaiTro = false;
     String HinhAnh;
 
     public NhanVien() {
@@ -84,7 +84,7 @@ public class NhanVien {
         this.SDT = SDT;
     }
 
-    public boolean isVaiTro() {
+    public boolean getVaiTro() {
         return VaiTro;
     }
 

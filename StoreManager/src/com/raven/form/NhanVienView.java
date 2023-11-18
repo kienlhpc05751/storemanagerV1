@@ -7,9 +7,8 @@ package com.raven.form;
 
 //import com.raven.dao.NhanVienDao;
 import com.raven.dao.NhanVienDao;
-import com.raven.db.XDateHelper;
-import com.raven.db.XDialogHelper;
-import com.raven.db.XShareHelper;
+import com.raven.utils.XDialogHelper;
+import com.raven.utils.XShareHelper;
 import com.raven.main.Main;
 import com.raven.model.NhanVien;
 import com.raven.utils.Auth;
@@ -18,12 +17,18 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.raven.utils.MsgBox;
+import com.raven.utils.XDate;
+import com.raven.utils.XImage;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -34,22 +39,12 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class NhanVienView extends javax.swing.JPanel {
 
-    private JLabel avt;
-    JFrame Jframe;
-
-    public NhanVienView(JFrame Jframe, JLabel avt) {
-        initComponents();
-        this.Jframe = Jframe;
-        this.setOpaque(false);
-        this.avt = avt;
-        init();
-    }
-
     /**
      * Creates new form Form_1
      */
     public NhanVienView() {
         initComponents();
+        load();
     }
 
     public static void main(String args[]) {
@@ -140,17 +135,17 @@ public class NhanVienView extends javax.swing.JPanel {
         tblNhanVien.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã nhân viên", "Tên nhân viên", "Email", "SDT", "Ngày Sinh", "Chức Vụ"
+                "Mã nhân viên", "Tên nhân viên", "Email", "SDT", "Ngày Sinh", "Chức Vụ"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -161,6 +156,9 @@ public class NhanVienView extends javax.swing.JPanel {
         tblNhanVien.setGridColor(new java.awt.Color(204, 204, 204));
         tblNhanVien.setRowHeight(30);
         tblNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblNhanVienMouseClicked(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblNhanVienMouseReleased(evt);
             }
@@ -276,7 +274,7 @@ public class NhanVienView extends javax.swing.JPanel {
                 .addComponent(btnNext)
                 .addGap(18, 18, 18)
                 .addComponent(btnLast)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
                 .addComponent(btnThem)
                 .addGap(18, 18, 18)
                 .addComponent(btnSua)
@@ -513,7 +511,7 @@ public class NhanVienView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblNhanVienMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseReleased
-
+        
     }//GEN-LAST:event_tblNhanVienMouseReleased
 
     private void cboNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNhanVienActionPerformed
@@ -525,42 +523,52 @@ public class NhanVienView extends javax.swing.JPanel {
     }//GEN-LAST:event_cboQuanLyActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
+        delete();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-
+        update();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        if (btnThem.getText().equals("Thêm")) {
-            if (isValidate()) {
-                insertEmployee();
-            }
-        } else {
-            
-        }
+       insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        last();
+        this.index = tblNhanVien.getRowCount() - 1;
+        this.edit();
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        next();
+       this.index++;
+        this.edit();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        prev();
+       this.index--;
+        this.edit();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
-        first();
+       this.index = 0;
+        this.edit();
     }//GEN-LAST:event_btnfirstActionPerformed
 
     private void lblHinhAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHinhAnhMouseClicked
-        // TODO add your handling code here:
 
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+
+            XImage.save(file);
+
+            ImageIcon img = XImage.read(file.getName());
+            Image img2 = XImage.resize(img.getImage(), lblHinhAnh.getWidth(), lblHinhAnh.getHeight());
+            ImageIcon img3 = new ImageIcon(img2);
+            lblHinhAnh.setIcon(img3);
+            lblHinhAnh.setToolTipText(file.getName());
+        }
+    
     }//GEN-LAST:event_lblHinhAnhMouseClicked
 
     private void txtSDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSDTActionPerformed
@@ -568,8 +576,20 @@ public class NhanVienView extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSDTActionPerformed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-        // TODO add your handling code here:
+        clear();
     }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
+       if(evt.getClickCount() == 2){
+            this.index = tblNhanVien.rowAtPoint(evt.getPoint());
+            if (this.index >= 0) {
+                this.edit();
+                jTabbedPane1.setSelectedIndex(0);
+                
+            }
+        }
+               
+    }//GEN-LAST:event_tblNhanVienMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -613,312 +633,143 @@ public class NhanVienView extends javax.swing.JPanel {
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtTenNV;
     // End of variables declaration//GEN-END:variables
-     int row = -1;
+    int index = -1; // vị trí của nhân viên đang hiển thị trên form
     NhanVienDao nvDao = new NhanVienDao();
-//    JnaFileChooser fileChooser = new JnaFileChooser();
-
-    private void init() {
-        try {
-            fillTable(nvDao.select());
-            clearForm();
-//              BaseDAO.setTable(spEmployee, tblEmployee, false, 0, 2, 4, 6, 7, 9, 10);
-//
-            CustomRenderer renderer = new CustomRenderer();
-            for (int i = 0; i < tblNhanVien.getColumnCount(); i++) {
-                tblNhanVien.getColumnModel().getColumn(i).setCellRenderer(renderer);
-            }
-            tblNhanVien.setRowSelectionAllowed(true);
-
-        } catch (SQLException e) {
-            XDialogHelper.alert(this, 0, "Lỗi truy vấn dữ liệu !");
-        }
-
-    }
-
-    private void fillTable(List<NhanVien> select) {
+    
+    
+    void load() {
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.setRowCount(0);
-
         try {
-            List<NhanVien> list = select;
+            List<NhanVien> list = nvDao.selectAll();
             for (NhanVien nv : list) {
                 Object[] row = {
                     nv.getMaNV(),
                     nv.getTenNV(),
-                    nv.getMatKhau(),
-                    XDateHelper.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
+//                    nv.getMatKhau(),
+                    XDate.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
                     nv.getEmail(),
                     nv.getSDT(),
-                    nv.isVaiTro() ? "Quản lý" : "Nhân Viên"
+                    nv.getVaiTro()?"Quản lý":"Nhân viên"
+                    
                 };
                 model.addRow(row);
             }
-            tblNhanVien.setModel(model);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn!");
         }
     }
-
-    private void clearForm() {
-        NhanVien nv = new NhanVien();
-        setForm(nv);
-        row = -1;
-        updateStatus();
-        lblHinhAnh.setIcon(null);
-        lblHinhAnh.setToolTipText(null);
-        tblNhanVien.setRowSelectionAllowed(false);
-        cboQuanLy.setEnabled(true);
-        cboNhanVien.setEnabled(false);
-        btnThem.setText("Thêm");
+    
+    void edit() {
+        try {
+            String manv = (String) tblNhanVien.getValueAt(this.index, 0);
+            NhanVien model = nvDao.findByID(manv);
+            if(model != null){
+                this.setModel(model);
+                jTabbedPane1.setSelectedIndex(0);
+                this.setStatus(false);
+            }
+        } 
+        catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn!");
+        }
     }
-
-    void setForm(NhanVien nv) {
-        txtMaNV.setText(nv.getMaNV());
-        txtTenNV.setText(nv.getTenNV());
-        txtMatKhau.setText(nv.getMatKhau());
-        txtEmail.setText(nv.getEmail());
-        txtSDT.setText(nv.getSDT());
-        if (nv.getNgaySinh() == null) {
-            jDateChooser1.setDate(XDateHelper.nowDate());
-        } else {
-            jDateChooser1.setDate(nv.getNgaySinh());
-        }
-        if (nv.isVaiTro()) {
-            cboQuanLy.setSelected(true);
-        } else {
-            cboNhanVien.setSelected(true);
-        }
-        if (nv.getHinhAnh() != null) {
-            lblHinhAnh.setToolTipText(nv.getHinhAnh());
-            lblHinhAnh.setIcon(XShareHelper.scaledImage(nv.getHinhAnh(), lblHinhAnh));
+    
+    
+    void setModel(NhanVien model){
+        txtMaNV.setText(model.getMaNV());
+        txtTenNV.setText(model.getTenNV());
+        txtMatKhau.setText(model.getMatKhau());
+        jDateChooser1.setDate(model.getNgaySinh());
+        txtEmail.setText(model.getEmail());
+        txtSDT.setText(model.getSDT());
+        cboQuanLy.setSelected(model.getVaiTro());
+        cboNhanVien.setSelected(!model.getVaiTro());
+        if (model.getHinhAnh() != null) {
+            lblHinhAnh.setToolTipText(model.getHinhAnh());
+            lblHinhAnh.setIcon(XShareHelper.scaledImage(model.getHinhAnh(), lblHinhAnh));
         } else {
             lblHinhAnh.setIcon(null);
         }
-
-    }
-
-    private void updateStatus() {
-        boolean edit = (this.row >= 0);
-        boolean first = (this.row == 0);
-        boolean last = (this.row == tblNhanVien.getRowCount() - 1);
-
-        btnThem.setEnabled(!edit);
-        btnSua.setEnabled(edit);
-        btnXoa.setEnabled(edit);
-//        if (Auth.user.getRoleID() == 1) {
-//            btnXoa.setEnabled(edit);
-//        } else {
-//            btnXoa.setEnabled(false);
-//        }
-
-        btnfirst.setEnabled(edit && !first);
-        btnPrev.setEnabled(edit && !first);
-        btnNext.setEnabled(edit && !last);
-        btnLast.setEnabled(edit && !last);
-    }
-
-    public class CustomRenderer extends DefaultTableCellRenderer {
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Component c = (Component) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            String isStatus = table.getValueAt(row, 10).toString();
-            if (isSelected) {
-                // Thiết lập màu nền cho dòng được chọn
-                c.setBackground(tblNhanVien.getSelectionBackground());
-                c.setForeground(Color.WHITE);
-            } else {
-                // Thiết lập màu nền cho các dòng khác
-                c.setBackground(new Color(182, 198, 211));
-                c.setForeground(Color.BLACK);
-            }
-            
-
-            return c;
-        }
-    }
-
-    void first() {
-        this.row = 0;
-        this.edit();
-        tblNhanVien.changeSelection(row, 0, false, false);
-    }
-
-    void prev() {
-        if (this.row > 0) {
-            this.row--;
-            this.edit();
-            tblNhanVien.changeSelection(row, 0, false, false);
-        }
-    }
-
-    void next() {
-        if (this.row < tblNhanVien.getRowCount() - 1) {
-            this.row++;
-            this.edit();
-            tblNhanVien.changeSelection(row, 0, false, false);
-
-        }
-
-    }
-    void last() {
-        this.row = tblNhanVien.getRowCount() - 1;
-        this.edit();
-        tblNhanVien.changeSelection(row, 0, false, false);
-    }
-    void edit() {
-        try {
-            String eID = tblNhanVien.getValueAt(row, 0).toString();
-            NhanVien e = nvDao.findByID(eID);
-
-            txtMaNV.setEnabled(false);
-            this.setForm(e);
-            jTabbedPane1.setSelectedIndex(0);
-            this.updateStatus();
-//            if (e.getMatKhau().equals("")) {
-//                btnCreateAccount.setVisible(true);
-//                btnCreateAccount.setText("Tạo Tài Khoản");
-//
-//            } else {
-//                btnCreateAccount.setVisible(true);
-//                btnCreateAccount.setText("Cập nhật Tài Khoản");
-//            }
-//            if (e.isStatus()) {
-//                btnXoa.setEnabled(false);
-//                btnThem.setEnabled(true);
-//                btnSua.setEnabled(false);
-//            } else {
-//                btnThem.setText("Thêm");
-//            }
-        } catch (SQLException ex) {
-            XDialogHelper.alert(this, 0, "Lỗi truy vấn dữ liệu !");
-        }
-    }
-    private void insertEmployee() {
-        NhanVien e = getForm();
-        try {
-            nvDao.insert(e);
-            this.fillTable(nvDao.select());
-            for (int i = 0; i < tblNhanVien.getRowCount(); i++) {
-                if (e.getMaNV().equalsIgnoreCase(String.valueOf(tblNhanVien.getValueAt(i, 0)))) {
-                    row = i;
-                    tblNhanVien.changeSelection(i, i, false, false);
-                    break;
-                }
-            }
-            jTabbedPane1.setSelectedIndex(1);
-            this.clearForm();
-            tblNhanVien.setRowSelectionAllowed(true);
-            XDialogHelper.alert(this, "Thêm mới thành công !");
-        } catch (SQLException ex) {
-            XDialogHelper.alert(this, "Thêm thất bại !");
-        }
-
-    }
-    NhanVien getForm() {
-        NhanVien e = new NhanVien();
-        e.setMaNV(txtMaNV.getText().trim());
-        e.setTenNV(txtTenNV.getText().trim());
-        e.setMatKhau(txtMatKhau.getText().trim());
-        e.setEmail(txtEmail.getText().trim());
-        e.setSDT(txtSDT.getText().trim());
-
-        if (cboQuanLy.isSelected()) {
-            e.setVaiTro(true);
-        } else {
-            e.setVaiTro(false);
-        }
-        
-        e.setNgaySinh(jDateChooser1.getDate());
-        e.setHinhAnh(lblHinhAnh.getToolTipText().trim());
-        System.out.println(lblHinhAnh.getToolTipText().trim() + " getform");
-        return e;
     }
     
-    private boolean isValidate() {
-        boolean checkForm = true;
-        try {
-            List<NhanVien> listE = nvDao.select();
-            String[] error
-                    = {"Bạn chưa nhập Mã NV\n",
-                        "Mã NV chỉ tối đa 8 kí tự",
-                        "Bạn chưa nhập Họ Tên\n",
-                        "Tuổi không hợp lệ (Tuổi phải lớn hơn 18t)\n",
-                        "Bạn chưa nhập Email\n",
-                        "Email không hợp lệ\n",
-                        "Bạn chưa nhập SĐT\n",
-                        "Số điện thoại không hợp lệ (vd: 0909333666)\n",
-//                        "Bạn chưa chọn Ảnh\n",
-//                        "Mã NV chưa đúng định dạng (VD: NV12345)\n",
-                        "Họ Tên không hợp lệ\n",
-                        "Email đã tồn tại\n",
-                        "Số điện thoại đã tồn tại\n"};
-            String mess = "";
+    NhanVien getModel(){
+        NhanVien model = new NhanVien();
+        model.setMaNV(txtMaNV.getText());
+        model.setTenNV(txtTenNV.getText());
+        model.setMatKhau(new String(txtMatKhau.getPassword()));
+        model.setNgaySinh(jDateChooser1.getDate());
+        model.setEmail(txtEmail.getText());
+        model.setSDT(txtSDT.getText());
+        model.setVaiTro(cboQuanLy.isSelected());
+        model.setHinhAnh(lblHinhAnh.getToolTipText());
+        System.out.println(lblHinhAnh.getToolTipText() + " getform");
+        return model;
+    }
 
-//        String regexID = "NV[0-9_-]{1,6}$";
-            String regexName = "^[a-zA-Z\\s\\u00C0-\\u024F\\u1E00-\\u1EFF]{3,50}+$";
+    void setStatus(boolean insertable){
+        txtMaNV.setEditable(insertable);
+        btnThem.setEnabled(insertable);
+        btnSua.setEnabled(!insertable);
+        btnXoa.setEnabled(!insertable);
 
-            if (txtTenNV.getText().equals("")) {
-                mess += error[2];
-                checkForm = false;
-            } else if (!txtTenNV.getText().matches(regexName)) {
-                mess += error[11];
-                checkForm = false;
-            }
+        boolean first = this.index > 0;
+        boolean last = this.index < tblNhanVien.getRowCount() - 1;
+        btnfirst.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
+        btnNext.setEnabled(!insertable && last);
+        btnLast.setEnabled(!insertable && last);
+    }
 
-            Date now = XDateHelper.nowDate();
-            Date birthD = jDateChooser1.getDate();
-            int age = (int) ((now.getTime() - birthD.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
-            if (age < 18) {
-                mess += error[3];
-                checkForm = false;
-            }
-
-            String regexEmail = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-            if (txtEmail.getText().equals("")) {
-                mess += error[4];
-                checkForm = false;
-            } else if (!txtEmail.getText().matches(regexEmail)) {
-                mess += error[5];
-                checkForm = false;
-            } else {
-                for (NhanVien e : listE) {
-                    if (txtEmail.getText().trim().equalsIgnoreCase(e.getEmail())) {
-                        mess += error[12];
-                        checkForm = false;
-                    }
-                }
-            }
-            String regexPhone = "^([+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})$";
-            if (txtSDT.getText().equals("")) {
-                mess += error[6];
-                checkForm = false;
-            } else if (txtSDT.getText().length() != 10 || !txtSDT.getText().matches(regexPhone)) {
-                mess += error[7];
-                checkForm = false;
-            } else {
-                for (NhanVien e : listE) {
-                    if (txtSDT.getText().trim().equalsIgnoreCase(e.getSDT())) {
-                        mess += error[8];
-                        checkForm = false;
-                    }
-                }
-            }
-
+    void insert(){
+        NhanVien nv = getModel();
             
-            if (lblHinhAnh.getToolTipText() == null) {
-                mess += error[8];
-                checkForm = false;
-            }
-            if (!mess.equalsIgnoreCase("")) {
-                XDialogHelper.alert(this, mess);
-                checkForm = false;
+                try {
+                    nvDao.insert(nv);
+                    this.load();
+                    this.clear();
+                    MsgBox.alert(this, "Them moi thanh cong!");
+               } 
+               catch (Exception e) {
+                    MsgBox.alert(this, "Them that bai!");
+                }
+            
+    }
+    
+    void update(){
+        NhanVien nv = getModel();
+            
+                try {
+                    nvDao.update(nv);
+                    this.load();
+                    this.clear();
+                    MsgBox.alert(this, "Cap nhat thanh cong!");
+               } 
+               catch (Exception e) {
+                    MsgBox.alert(this, "Cap nhat that bai!");
+                }
+            
+    }
 
+    void delete(){
+        if(MsgBox.confirm(this, "Ban that su muon xoa nhan vien nay khong?")){
+            String manv = txtMaNV.getText();
+            try {
+                nvDao.delete(manv);
+                this.load();
+                this.clear();
+                MsgBox.alert(this, "Xoa thanh cong!");
+            } 
+            catch (Exception e) {
+                MsgBox.alert(this, "Xoa that bai!");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienView.class
-                    .getName()).log(Level.SEVERE, null, ex);
         }
-        return checkForm;
+    }
+    
+    void clear(){
+        this.setModel(new NhanVien());
+        this.setStatus(true);
+        this.index = -1;
     }
 }
