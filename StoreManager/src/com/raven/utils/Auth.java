@@ -1,10 +1,13 @@
 package com.raven.utils;
 
+//import com.raven.dao.NhanVienDao;
+import com.raven.dao.NhanVienDao;
 import com.raven.model.NhanVien;
+import java.awt.Component;
 
 public class Auth {
 
-    public static NhanVien user = null;
+    public static NhanVien user = NhanVienDao.getInstant().selectById("NV01");
 
     public static void clear() {
         Auth.user = null;
@@ -15,6 +18,13 @@ public class Auth {
     }
 
     public static boolean isManager() {
-        return user.isVaiTro();
+        return user.getVaiTro();
+    }
+    public static boolean accept(Component fram) {
+        if (!Auth.isManager()) {
+            MsgBox.alert(fram, "Bạn Không Có Quyền Thực Hiện Chức Năng Này !");
+            return false;
+        }
+        return true;
     }
 }

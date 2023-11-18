@@ -43,4 +43,7 @@ public class XImage {
         File path = new File("logos", fileName);
         return new ImageIcon(path.getAbsolutePath());
     }
+     public static Image resize(Image image, int width, int height) {
+        return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    }
 }
