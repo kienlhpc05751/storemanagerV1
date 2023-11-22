@@ -53,6 +53,8 @@ public class Form_Home extends javax.swing.JPanel {
         spTable = new javax.swing.JScrollPane();
         table = new com.raven.swing.Table();
 
+        setBackground(new java.awt.Color(250, 234, 221));
+
         panel.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
         card1.setColor1(new java.awt.Color(142, 142, 250));

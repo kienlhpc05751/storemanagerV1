@@ -29,6 +29,8 @@ public class Form_1 extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(250, 235, 215));
+
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(106, 106, 106));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
