@@ -101,7 +101,7 @@ public class Menu extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelMoving, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(listMenu2, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE))
+                .addComponent(listMenu2, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 //#1CB5E0
