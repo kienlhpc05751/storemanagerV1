@@ -6,7 +6,12 @@ package com.raven.form;
 
 //import jdk.jshell.tool.JavaShellToolBuilder
 
+import com.raven.dao.NhanVienDAO;
 import com.raven.main.Main;
+import com.raven.model.NhanVien;
+import com.raven.utils.Auth;
+import com.raven.utils.MsgBox;
+import java.awt.event.KeyEvent;
 
 
 /**
@@ -15,6 +20,7 @@ import com.raven.main.Main;
  */
 public class Login extends javax.swing.JFrame {
 
+     NhanVienDAO nvdao = new NhanVienDAO();
     /**
      * Creates new form NewJFrame
      */
@@ -23,6 +29,26 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(this);
     }
 
+    private void login() {
+        String manv = txtUserName.getText();
+        String mk = new String(txtPassword.getPassword());
+        NhanVien nv = nvdao.selectById(manv);
+        if (nv == null) {
+            MsgBox.alert(this, "Sai tên đăng nhập!");
+        } else if (!mk.equals(nv.getMatKhau())) {
+            MsgBox.alert(this, "Sai mật khẩu!");
+        } else {
+            System.out.println("Logged in successfully...");
+            MsgBox.alert(this, "Đăng nhập thành công!");
+            Auth.user = nv;
+            this.dispose();
+        }
+    }
+    private void exit() {
+        if (MsgBox.confirm(this, "Bạn muốn kết thúc ứng dụng?")) {
+            System.exit(0);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,6 +107,14 @@ public class Login extends javax.swing.JFrame {
         txtUserName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtUserName.setForeground(new java.awt.Color(102, 102, 102));
         txtUserName.setBorder(null);
+        txtUserName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUserNameKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUserNameKeyReleased(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));
@@ -97,6 +131,11 @@ public class Login extends javax.swing.JFrame {
 
         txtPassword.setBackground(new java.awt.Color(255, 249, 209));
         txtPassword.setBorder(null);
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -176,11 +215,20 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-                Main MainFrame = new Main();
-                MainFrame.setVisible(true);
-                MainFrame.pack();
-                MainFrame.setLocationRelativeTo(null);
-                this.dispose();
+            if (txtUserName.getText().trim().length() > 0) {
+            if (txtPassword.getPassword().length > 0) {
+                this.login();
+            } else {
+                MsgBox.alert(this, "Không được để trống mật khẩu.");
+            }
+        } else {
+            MsgBox.alert(this, "Không được để trống tên đăng nhập.");
+        }
+//        Main MainFrame = new Main();
+//                MainFrame.setVisible(true);
+//                MainFrame.pack();
+//                MainFrame.setLocationRelativeTo(null);
+//                this.dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
@@ -190,6 +238,30 @@ public class Login extends javax.swing.JFrame {
         ForgotPasswordFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void txtUserNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserNameKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserNameKeyReleased
+
+    private void txtUserNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserNameKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.getRootPane().setDefaultButton(btnLogin);
+            btnLogin.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            this.exit();
+        }
+    }//GEN-LAST:event_txtUserNameKeyPressed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.getRootPane().setDefaultButton(btnLogin);
+            btnLogin.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            this.exit();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
 
     /**
      * @param args the command line arguments

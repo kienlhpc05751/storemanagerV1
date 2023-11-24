@@ -4,13 +4,14 @@
  */
 package com.raven.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Asus
  */
-public class NhanVien {
+public class NhanVien implements Serializable{
     private String maNV;
     private String hoTen;
     private String matKhau;
