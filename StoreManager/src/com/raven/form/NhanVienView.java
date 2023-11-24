@@ -559,9 +559,7 @@ public class NhanVienView extends javax.swing.JPanel {
         JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-
             XImage.save(file);
-
             ImageIcon img = XImage.read(file.getName());
             Image img2 = XImage.resize(img.getImage(), lblHinhAnh.getWidth(), lblHinhAnh.getHeight());
             ImageIcon img3 = new ImageIcon(img2);
@@ -642,7 +640,9 @@ public class NhanVienView extends javax.swing.JPanel {
         model.setRowCount(0);
         try {
             List<NhanVien> list = nvDao.selectAll();
+            
             for (NhanVien nv : list) {
+                if(nv!=null){
                 Object[] row = {
                     nv.getMaNV(),
                     nv.getTenNV(),
@@ -654,9 +654,14 @@ public class NhanVienView extends javax.swing.JPanel {
                     
                 };
                 model.addRow(row);
+            }else {
+                    System.out.println("rỗng");
+                }
+                
             }
         } 
         catch (Exception e) {
+            e.printStackTrace();
             MsgBox.alert(this, "Lỗi truy vấn!");
         }
     }
@@ -672,7 +677,7 @@ public class NhanVienView extends javax.swing.JPanel {
             }
         } 
         catch (Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn!");
+            MsgBox.alert(this, "Lỗi truy vấn 1!");
         }
     }
     

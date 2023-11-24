@@ -62,46 +62,46 @@ public class FogotPasswordDAO {
         DBHelper.update(UPDATE_PASSWORD_SQL, newPass, key);
     }
 
-    public void sendmail(String email, Object... args) {
-        try {
-            // Set default email account
-            String fmail = "lamkimuyen2015@gmail.com";
-            String fpass ="brwxhldclvujkjya"; //"swzbpdhfcijzxipy";
-            // Configure the SMTP Server properties
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            // Create a new session with an authenticator
-            
-            Session ss = Session.getDefaultInstance(props, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(fmail, fpass);
-                }
-            });
-            rs = DBHelper.query(SELECT_EMAIL_SQL, email);
-            try {
-                while (rs.next()) {
-                    // Create a new email message
-                    MimeMessage msg = new MimeMessage(ss);
-                    msg.setFrom(new InternetAddress(fmail));
-                    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(rs.getString("Email")));
-                    // Set subject, body message
-                    String subject = "Password has been reset - Cửa Hàng Thời Trang Lightning Strike";
-                    String body = message(email, rs.getString("MaNV"), rs.getString("HoTen"));
-                    msg.setSubject(subject, "utf-8");
-                    msg.setContent(body, "text/html;charset=utf-8");
-                    // Send the email
-                    Transport.send(msg);
-                }
-            } finally {
-                rs.getStatement().getConnection().close();
-            }
-        } catch (SQLException | MessagingException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException(ex);
-        }
-    }
+//    public void sendmail(String email, Object... args) {
+//        try {
+//            // Set default email account
+//            String fmail = "lamkimuyen2015@gmail.com";
+//            String fpass ="brwxhldclvujkjya"; //"swzbpdhfcijzxipy";
+//            // Configure the SMTP Server properties
+//            Properties props = new Properties();
+//            props.put("mail.smtp.host", "smtp.gmail.com");
+//            props.put("mail.smtp.port", "587");
+//            props.put("mail.smtp.auth", "true");
+//            props.put("mail.smtp.starttls.enable", "true");
+//            // Create a new session with an authenticator
+//            
+//            Session ss = Session.getDefaultInstance(props, new Authenticator() {
+//                @Override
+//                protected PasswordAuthentication getPasswordAuthentication() {
+//                    return new PasswordAuthentication(fmail, fpass);
+//                }
+//            });
+//            rs = DBHelper.query(SELECT_EMAIL_SQL, email);
+//            try {
+//                while (rs.next()) {
+//                    // Create a new email message
+//                    MimeMessage msg = new MimeMessage(ss);
+//                    msg.setFrom(new InternetAddress(fmail));
+//                    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(rs.getString("Email")));
+//                    // Set subject, body message
+//                    String subject = "Password has been reset - Cửa Hàng Thời Trang Lightning Strike";
+//                    String body = message(email, rs.getString("MaNV"), rs.getString("HoTen"));
+//                    msg.setSubject(subject, "utf-8");
+//                    msg.setContent(body, "text/html;charset=utf-8");
+//                    // Send the email
+//                    Transport.send(msg);
+//                }
+//            } finally {
+//                rs.getStatement().getConnection().close();
+//            }
+//        } catch (SQLException | MessagingException ex) {
+//            ex.printStackTrace();
+//            throw new RuntimeException(ex);
+//        }
+//    }
 }
