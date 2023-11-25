@@ -11,6 +11,7 @@ import java.util.Date;
  *
  * @author Asus
  */
+
 public class NhanVien implements Serializable{
     private String maNV;
     private String hoTen;
