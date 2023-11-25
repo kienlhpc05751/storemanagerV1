@@ -15,6 +15,7 @@ import javax.swing.ListSelectionModel;
 abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
 
     String SELECT_ALL_SQL = "SELECT * FROM Nhanvien";
+    public static String SELECT_BY_ID_SQL = "SELECT * FROM nhanvien WHERE MaNV=?";
 
     @Override
     public void insert(NhanVien model) {
@@ -101,16 +102,32 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    @Override
+//    @Override
     public List<NhanVien> selectAll() {
-             return this.selectBySql(SELECT_ALL_SQL);
+        return this.selectBySql(SELECT_ALL_SQL);
 //        return this.selectBysql(SELECT_ALL_SQL);
 
     }
 
     @Override
-    public NhanVien selectById(String k) {
+//    public NhanVien selectById(String k) {
+//        return null;
+//    }
+    public NhanVien selectById(String key) {
+
+        List<NhanVien> list = selectBySql(SELECT_BY_ID_SQL, key);
+        try {
+
+            if (list.isEmpty()) {
+                return null;
+            }
+            return list.get(0);
+//        return list.size() > 0 ? list.get(0) : null;
+        } catch (Exception e) {
+
+        }
         return null;
+
     }
 
     @Override
