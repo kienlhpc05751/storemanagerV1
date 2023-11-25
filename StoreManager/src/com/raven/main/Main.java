@@ -10,6 +10,7 @@ import com.raven.form.Form_1;
 import com.raven.form.Form_2;
 import com.raven.form.Form_3;
 import com.raven.form.Form_Home;
+import com.raven.form.KhachHangView;
 import com.raven.form.NhanVienView;
 //import com.raven.form.NewJFrame;
 import com.raven.utils.XImage;
@@ -26,7 +27,7 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     private Form_Home home;
-    private Form_1 form1;
+    private KhachHangView form1;
     private Form_2 form2;
     private Form_3 form3;
     private NhanVienView form4;
@@ -37,7 +38,7 @@ public class Main extends javax.swing.JFrame {
         setIconImage(XImage.getAppicon());
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
-        form1 = new Form_1();
+        form1 = new KhachHangView();
         form2 = new Form_2();
         form3 = new Form_3();
         form4 = new NhanVienView();
