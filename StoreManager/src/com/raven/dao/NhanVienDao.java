@@ -16,6 +16,33 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
 
     String SELECT_ALL_SQL = "SELECT * FROM Nhanvien";
     public static String SELECT_BY_ID_SQL = "SELECT * FROM nhanvien WHERE MaNV=?";
+    
+    
+    
+    @Override
+     protected List<NhanVien> selectBySql(String sql, Object... args) {
+        List<NhanVien> list = new ArrayList<>();
+        try {
+            ResultSet rs = null;
+            try {
+                rs = DBHelper.query(sql, args);
+                while (rs.next()) {
+                    NhanVien entity = new NhanVien();
+                    entity.setMaNV(rs.getString("MaNV"));
+                    entity.setMatKhau(rs.getString("MatKhau"));
+                    entity.setTenNV(rs.getString("tenNV"));
+                    entity.setEmail(rs.getString("Email"));
+                    entity.setVaiTro(rs.getBoolean("VaiTro"));
+                    list.add(entity);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return list;
+    }
 
     @Override
     public void insert(NhanVien model) {
@@ -135,9 +162,9 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
         return null;
     }
 
-    @Override
-    protected List<NhanVien> selectBySql(String sql, Object... args) {
-        return null;
-    }
+//    @Override
+//    protected List<NhanVien> selectBySql(String sql, Object... args) {
+//        return null;
+//    }
 
 }
