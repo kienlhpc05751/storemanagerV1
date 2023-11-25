@@ -42,6 +42,11 @@ public class NhanVienView extends javax.swing.JPanel {
     /**
      * Creates new form Form_1
      */
+//        NhanVienDao nvDao = new NhanVienDao();
+    int index = -1; // vị trí của nhân viên đang hiển thị trên form
+    NhanVienDao nvDao = new NhanVienDao() {
+    };
+
     public NhanVienView() {
         initComponents();
         load();
@@ -511,7 +516,7 @@ public class NhanVienView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblNhanVienMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseReleased
-        
+
     }//GEN-LAST:event_tblNhanVienMouseReleased
 
     private void cboNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNhanVienActionPerformed
@@ -531,7 +536,7 @@ public class NhanVienView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-       insert();
+        insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
@@ -540,17 +545,17 @@ public class NhanVienView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-       this.index++;
+        this.index++;
         this.edit();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-       this.index--;
+        this.index--;
         this.edit();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
-       this.index = 0;
+        this.index = 0;
         this.edit();
     }//GEN-LAST:event_btnfirstActionPerformed
 
@@ -559,16 +564,14 @@ public class NhanVienView extends javax.swing.JPanel {
         JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-
             XImage.save(file);
-
             ImageIcon img = XImage.read(file.getName());
             Image img2 = XImage.resize(img.getImage(), lblHinhAnh.getWidth(), lblHinhAnh.getHeight());
             ImageIcon img3 = new ImageIcon(img2);
             lblHinhAnh.setIcon(img3);
             lblHinhAnh.setToolTipText(file.getName());
         }
-    
+
     }//GEN-LAST:event_lblHinhAnhMouseClicked
 
     private void txtSDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSDTActionPerformed
@@ -580,15 +583,15 @@ public class NhanVienView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
-       if(evt.getClickCount() == 2){
+        if (evt.getClickCount() == 2) {
             this.index = tblNhanVien.rowAtPoint(evt.getPoint());
             if (this.index >= 0) {
                 this.edit();
                 jTabbedPane1.setSelectedIndex(0);
-                
+
             }
         }
-               
+
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
 
@@ -633,10 +636,7 @@ public class NhanVienView extends javax.swing.JPanel {
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtTenNV;
     // End of variables declaration//GEN-END:variables
-    int index = -1; // vị trí của nhân viên đang hiển thị trên form
-    NhanVienDao nvDao = new NhanVienDao();
-    
-    
+
     void load() {
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.setRowCount(0);
@@ -646,38 +646,36 @@ public class NhanVienView extends javax.swing.JPanel {
                 Object[] row = {
                     nv.getMaNV(),
                     nv.getTenNV(),
-//                    nv.getMatKhau(),
+                    //                    nv.getMatKhau(),
                     XDate.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
                     nv.getEmail(),
                     nv.getSDT(),
-                    nv.getVaiTro()?"Quản lý":"Nhân viên"
-                    
+                    nv.getVaiTro() ? "Quản lý" : "Nhân viên"
                 };
                 model.addRow(row);
+                System.out.println("rỗng");
             }
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             MsgBox.alert(this, "Lỗi truy vấn!");
         }
     }
-    
+
     void edit() {
         try {
             String manv = (String) tblNhanVien.getValueAt(this.index, 0);
             NhanVien model = nvDao.findByID(manv);
-            if(model != null){
+            if (model != null) {
                 this.setModel(model);
                 jTabbedPane1.setSelectedIndex(0);
                 this.setStatus(false);
             }
-        } 
-        catch (Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn!");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn 1!");
         }
     }
-    
-    
-    void setModel(NhanVien model){
+
+    void setModel(NhanVien model) {
         txtMaNV.setText(model.getMaNV());
         txtTenNV.setText(model.getTenNV());
         txtMatKhau.setText(model.getMatKhau());
@@ -693,8 +691,8 @@ public class NhanVienView extends javax.swing.JPanel {
             lblHinhAnh.setIcon(null);
         }
     }
-    
-    NhanVien getModel(){
+
+    NhanVien getModel() {
         NhanVien model = new NhanVien();
         model.setMaNV(txtMaNV.getText());
         model.setTenNV(txtTenNV.getText());
@@ -708,7 +706,7 @@ public class NhanVienView extends javax.swing.JPanel {
         return model;
     }
 
-    void setStatus(boolean insertable){
+    void setStatus(boolean insertable) {
         txtMaNV.setEditable(insertable);
         btnThem.setEnabled(insertable);
         btnSua.setEnabled(!insertable);
@@ -722,52 +720,49 @@ public class NhanVienView extends javax.swing.JPanel {
         btnLast.setEnabled(!insertable && last);
     }
 
-    void insert(){
+    void insert() {
         NhanVien nv = getModel();
-            
-                try {
-                    nvDao.insert(nv);
-                    this.load();
-                    this.clear();
-                    MsgBox.alert(this, "Them moi thanh cong!");
-               } 
-               catch (Exception e) {
-                    MsgBox.alert(this, "Them that bai!");
-                }
-            
-    }
-    
-    void update(){
-        NhanVien nv = getModel();
-            
-                try {
-                    nvDao.update(nv);
-                    this.load();
-                    this.clear();
-                    MsgBox.alert(this, "Cap nhat thanh cong!");
-               } 
-               catch (Exception e) {
-                    MsgBox.alert(this, "Cap nhat that bai!");
-                }
-            
+
+        try {
+            nvDao.insert(nv);
+            this.load();
+            this.clear();
+            MsgBox.alert(this, "Them moi thanh cong!");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Them that bai!");
+        }
+
     }
 
-    void delete(){
-        if(MsgBox.confirm(this, "Ban that su muon xoa nhan vien nay khong?")){
+    void update() {
+        NhanVien nv = getModel();
+
+        try {
+            nvDao.update(nv);
+            this.load();
+            this.clear();
+            MsgBox.alert(this, "Cap nhat thanh cong!");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Cap nhat that bai!");
+        }
+
+    }
+
+    void delete() {
+        if (MsgBox.confirm(this, "Ban that su muon xoa nhan vien nay khong?")) {
             String manv = txtMaNV.getText();
             try {
                 nvDao.delete(manv);
                 this.load();
                 this.clear();
                 MsgBox.alert(this, "Xoa thanh cong!");
-            } 
-            catch (Exception e) {
+            } catch (Exception e) {
                 MsgBox.alert(this, "Xoa that bai!");
             }
         }
     }
-    
-    void clear(){
+
+    void clear() {
         this.setModel(new NhanVien());
         this.setStatus(true);
         this.index = -1;
