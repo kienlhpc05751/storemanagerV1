@@ -6,7 +6,7 @@ package com.raven.form;
 
 //import jdk.jshell.tool.JavaShellToolBuilder
 
-import com.raven.dao.NhanVienDAO;
+import com.raven.dao.NhanVienDao;
 import com.raven.main.Main;
 import com.raven.model.NhanVien;
 import com.raven.utils.Auth;
@@ -20,7 +20,7 @@ import java.awt.event.KeyEvent;
  */
 public class Login extends javax.swing.JFrame {
 
-     NhanVienDAO nvdao = new NhanVienDAO();
+     NhanVienDao nvdao = new NhanVienDao(){};
     /**
      * Creates new form NewJFrame
      */
