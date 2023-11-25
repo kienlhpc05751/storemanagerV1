@@ -64,8 +64,8 @@ public class Login extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         txtUserName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
@@ -99,15 +99,16 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(139, 6, 19));
         jLabel2.setText("LOGIN");
 
-        jLabel3.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Username");
-
         txtUserName.setBackground(new java.awt.Color(255, 249, 209));
         txtUserName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtUserName.setForeground(new java.awt.Color(102, 102, 102));
-        txtUserName.setText("UyenL");
+        txtUserName.setText("kien");
         txtUserName.setBorder(null);
+        txtUserName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserNameActionPerformed(evt);
+            }
+        });
         txtUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtUserNameKeyPressed(evt);
@@ -116,6 +117,10 @@ public class Login extends javax.swing.JFrame {
                 txtUserNameKeyReleased(evt);
             }
         });
+
+        jLabel3.setBackground(new java.awt.Color(102, 102, 102));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Username");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));
@@ -131,6 +136,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("Password");
 
         txtPassword.setBackground(new java.awt.Color(255, 249, 209));
+        txtPassword.setText("password1");
         txtPassword.setBorder(null);
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -269,6 +275,10 @@ public class Login extends javax.swing.JFrame {
             this.exit();
         }
     }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void txtUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserNameActionPerformed
 
     /**
      * @param args the command line arguments
