@@ -6,7 +6,11 @@ import java.util.Date;
 public class XDate {
 
     static SimpleDateFormat formater = new SimpleDateFormat();
-
+    
+    public static Date now() {
+        return new Date();
+    }
+    
     public static Date toDate(String date, String pattern) {
         try {
             formater.applyPattern(pattern);
