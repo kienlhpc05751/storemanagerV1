@@ -3,6 +3,7 @@ package com.raven.dao;
 import com.raven.db.DBHelper;
 import com.raven.model.NhanVien;
 import java.awt.Font;
+import java.lang.reflect.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLException;
@@ -57,7 +58,7 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
 
     public NhanVien findByID(String ID) throws SQLException {
         String sql = "SELECT * FROM nhanvien WHERE MaNV=?";
-        List<NhanVien> list = select(sql, ID);
+        List<NhanVien> list = selectBySql(sql, ID);
         return !list.isEmpty() ? list.get(0) : null;
     }
 
@@ -103,7 +104,10 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
 
     @Override
     public List<NhanVien> selectAll() {
-             return this.selectBySql(SELECT_ALL_SQL);
+//             return this.selectBySql(SELECT_ALL_SQL);
+//List<NhanVien> list = new Arr
+             List<NhanVien> list = new ArrayList<>();
+             return list = selectBySql(SELECT_ALL_SQL);
 //        return this.selectBysql(SELECT_ALL_SQL);
 
     }
@@ -119,8 +123,28 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
     }
 
     @Override
-    protected List<NhanVien> selectBySql(String sql, Object... args) {
-        return null;
+protected List<NhanVien> selectBySql(String sql, Object... args) {
+        List<NhanVien> list = new ArrayList<>();
+        try {
+            ResultSet rs = null;
+            try {
+                rs = DBHelper.query(sql, args);
+                while (rs.next()) {
+                    NhanVien entity = new NhanVien();
+                    entity.setMaNV(rs.getString("MaNV"));
+                    entity.setMatKhau(rs.getString("MatKhau"));
+                    entity.setTenNV(rs.getString("tenNV"));
+                    entity.setEmail(rs.getString("Email"));
+                    entity.setVaiTro(rs.getBoolean("VaiTro"));
+                    list.add(entity);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return list;
     }
 
 }

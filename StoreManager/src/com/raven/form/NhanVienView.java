@@ -647,7 +647,8 @@ public class NhanVienView extends javax.swing.JPanel {
                     nv.getMaNV(),
                     nv.getTenNV(),
                     //                    nv.getMatKhau(),
-                    XDate.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
+//                    XDate.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
+                    nv.getNgaySinh(),
                     nv.getEmail(),
                     nv.getSDT(),
                     nv.getVaiTro() ? "Quản lý" : "Nhân viên"
