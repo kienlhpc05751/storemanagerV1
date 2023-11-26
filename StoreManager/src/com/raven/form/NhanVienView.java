@@ -647,13 +647,14 @@ public class NhanVienView extends javax.swing.JPanel {
                     nv.getMaNV(),
                     nv.getTenNV(),
                     //                    nv.getMatKhau(),
-                    XDate.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
+//                    XDate.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
+                    nv.getNgaySinh(),
                     nv.getEmail(),
                     nv.getSDT(),
                     nv.getVaiTro() ? "Quản lý" : "Nhân viên"
                 };
                 model.addRow(row);
-                System.out.println("rỗng");
+//                System.out.println("rỗng");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -664,7 +665,7 @@ public class NhanVienView extends javax.swing.JPanel {
     void edit() {
         try {
             String manv = (String) tblNhanVien.getValueAt(this.index, 0);
-            NhanVien model = nvDao.findByID(manv);
+            NhanVien model = nvDao.selectById(manv);
             if (model != null) {
                 this.setModel(model);
                 jTabbedPane1.setSelectedIndex(0);

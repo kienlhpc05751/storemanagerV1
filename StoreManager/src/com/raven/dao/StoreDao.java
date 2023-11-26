@@ -17,7 +17,7 @@ public abstract class StoreDao<E, K> {
 
     abstract public void delete(K k);
 
-//    abstract public List<E> selectAll();
+    abstract public List<E> selectAll();
 
     abstract public E selectById(K k);
 

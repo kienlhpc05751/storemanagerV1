@@ -31,6 +31,7 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
                     entity.setMaNV(rs.getString("MaNV"));
                     entity.setMatKhau(rs.getString("MatKhau"));
                     entity.setTenNV(rs.getString("tenNV"));
+                    entity.setHinhAnh(rs.getString("hinh"));
                     entity.setEmail(rs.getString("Email"));
                     entity.setVaiTro(rs.getBoolean("VaiTro"));
                     list.add(entity);
@@ -131,7 +132,9 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
 
 //    @Override
     public List<NhanVien> selectAll() {
-        return this.selectBySql(SELECT_ALL_SQL);
+        List<NhanVien> list = new ArrayList<>();
+        return list = selectBySql(SELECT_ALL_SQL);
+//        return this.selectBySql(SELECT_ALL_SQL);
 //        return this.selectBysql(SELECT_ALL_SQL);
 
     }
@@ -151,7 +154,7 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
             return list.get(0);
 //        return list.size() > 0 ? list.get(0) : null;
         } catch (Exception e) {
-
+       e.printStackTrace();
         }
         return null;
 
