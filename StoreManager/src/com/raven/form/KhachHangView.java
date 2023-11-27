@@ -537,7 +537,7 @@ public class KhachHangView extends javax.swing.JPanel {
             KhachHang model = khDao.findByID(makh);
             if (model != null) {
                 this.setModel(model);
-                tabs.setSelectedIndex(0);
+//                tabs.setSelectedIndex(0);
                 this.setStatus(false);
             }
         } catch (Exception e) {
