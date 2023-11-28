@@ -116,7 +116,6 @@ abstract public class SanPhamDao extends StoreDao<Sanpham, String> {
 //    String SELECT_ALL_LOAI_SQL1 = "SELECT DISTINCT sp.Maloai, l.tenloai\n"
 //            + "FROM sanpham sp\n"
 //            + "JOIN Loaisanpham l ON sp.maloai = l.maloai;";
-    
     String SELECT_ALL_LOAI_SQL2 = "EXEC GetProductInfo;";
 
     public List<Sanpham> selectAllLoai1() {
@@ -157,6 +156,11 @@ abstract public class SanPhamDao extends StoreDao<Sanpham, String> {
     public List<Sanpham> selectNotlnCourse1(int makh) {
 
         return this.selectBySql(sqlNH, makh);
+    }
+
+    @Override
+    public Sanpham selectByName(String k) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 //    String sqla = "Select * from NguoiHoc Where HoTen LIKE ?";

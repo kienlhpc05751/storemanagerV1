@@ -7,12 +7,14 @@ package com.raven.form;
 
 //import com.raven.dao.NhanVienDao;
 import com.raven.dao.KhachHangDao;
+import com.raven.dao.LoaiSpDAO;
 import com.raven.dao.SanPhamDao;
 import com.raven.utils.XDialogHelper;
 import com.raven.utils.XShareHelper;
 import com.raven.utils.Validator;
 import com.raven.main.Main;
 import com.raven.model.KhachHang;
+import com.raven.model.LoaiSanPham;
 import com.raven.model.Sanpham;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -49,6 +51,9 @@ public class SanPhamView1 extends javax.swing.JPanel {
         }
     };
     List<Sanpham> listSP = new ArrayList<>();
+    LoaiSpDAO daosp = new LoaiSpDAO(){};
+    List<LoaiSanPham> listLSP = new ArrayList<>();
+    
 
     public SanPhamView1() {
         initComponents();
@@ -62,12 +67,12 @@ public class SanPhamView1 extends javax.swing.JPanel {
 
     void chonComboBox(int index) {
         if (index >= 0) {
-            Sanpham cd = listSP.get(index);
+            LoaiSanPham cd = listLSP.get(index);
 
-            listSP = dao.selectAllLoai(cd.getBienTheSP());;
+//            listLSP = daosp.selectAll(cd.getMaloaiSP());;
 //            System.out.println(listSP);
-            txtMaSP.setText(cd.getBienTheSP());
-            txtTenSP.setText(cd.getTenSP());
+//            txtMaSP.setText(cd.getBienTheSP());
+//            txtTenSP.setText(cd.getTenSP());
 //            txtChuyenDe.setText(cd.getTenCD());
 //            txtHocPhi.setText(String.valueOf(cd.getHocPhi()));
 //            txtSoLuongH.setText(String.valueOf(cd.getThoiLuong()));
@@ -78,13 +83,21 @@ public class SanPhamView1 extends javax.swing.JPanel {
 
     //fill dữ liệu lên cobombox cboMaloai
     void fillCombobox() {
-   
-             listSP = dao.selectAll();
+        
+        
+                     listLSP = daosp.selectAll();
         DefaultComboBoxModel cboModel = (DefaultComboBoxModel) CboMaloai.getModel();
         cboModel.removeAllElements();
-        for (Sanpham itempCD : listSP) {
-            cboModel.addElement(itempCD.getMaLoai());
+        for  (LoaiSanPham itempCD : listLSP) {
+            cboModel.addElement(itempCD.toString());
         }
+   
+//             listSP = dao.selectAll();
+//        DefaultComboBoxModel cboModel = (DefaultComboBoxModel) CboMaloai.getModel();
+//        cboModel.removeAllElements();
+//        for (Sanpham itempCD : listSP) {
+//            cboModel.addElement(itempCD.getMaLoai());
+//        }
 
 //        System.out.println("Size of listSP: " + listSP.size());
 //        List<Object[]> list = new ArrayList<>();
