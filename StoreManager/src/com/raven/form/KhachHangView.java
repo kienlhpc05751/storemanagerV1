@@ -463,7 +463,7 @@ public class KhachHangView extends javax.swing.JPanel {
             this.index = tblKhachHang.rowAtPoint(evt.getPoint());
             if (this.index >= 0) {
                 this.edit();
-                tabs.setSelectedIndex(0);
+                tabs.setSelectedIndex(1);
                 
             }
         }

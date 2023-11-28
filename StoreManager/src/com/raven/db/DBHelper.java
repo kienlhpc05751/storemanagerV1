@@ -10,7 +10,7 @@ public class DBHelper {
     public static Connection getDBConnection() {
         Connection con = null;
 
-        String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=Tore;user=sa;password=123;encrypt=true;trustServerCertificate=true;";
+        String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=Tore1;user=sa;password=123;encrypt=true;trustServerCertificate=true;";
         try {
             con = DriverManager.getConnection(connectionUrl);
             System.out.println("Connection success...");

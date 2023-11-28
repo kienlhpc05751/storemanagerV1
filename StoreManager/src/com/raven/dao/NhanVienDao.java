@@ -32,7 +32,9 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
                     entity.setMatKhau(rs.getString("MatKhau"));
                     entity.setTenNV(rs.getString("tenNV"));
                     entity.setHinhAnh(rs.getString("hinh"));
+                    entity.setNgaySinh(rs.getDate("ngaysinh"));
                     entity.setEmail(rs.getString("Email"));
+                    entity.setSDT(rs.getString("phone"));
                     entity.setVaiTro(rs.getBoolean("VaiTro"));
                     list.add(entity);
                 }

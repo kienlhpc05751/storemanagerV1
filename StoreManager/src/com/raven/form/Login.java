@@ -232,10 +232,10 @@ public class Login extends javax.swing.JFrame {
         if (txtUserName.getText().trim().length() > 0) {
             if (txtPassword.getPassword().length > 0) {
                 this.login();
-//                Main MainFrame = new Main();
-//                MainFrame.setVisible(true);
-//                MainFrame.pack();
-//                MainFrame.setLocationRelativeTo(null);
+                Main MainFrame = new Main();
+                MainFrame.setVisible(true);
+                MainFrame.pack();
+                MainFrame.setLocationRelativeTo(null);
                 this.dispose();
 
             } else {

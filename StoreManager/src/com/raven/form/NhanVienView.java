@@ -587,7 +587,7 @@ public class NhanVienView extends javax.swing.JPanel {
             this.index = tblNhanVien.rowAtPoint(evt.getPoint());
             if (this.index >= 0) {
                 this.edit();
-                jTabbedPane1.setSelectedIndex(0);
+                jTabbedPane1.setSelectedIndex(1);
 
             }
         }

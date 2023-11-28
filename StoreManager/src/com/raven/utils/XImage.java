@@ -19,7 +19,7 @@ public class XImage {
     public static Image getAppicon() {
 //        URL url = XImage.class.getResource("/com/edusys/icon/fpt.png");
 //        return new ImageIcon(url).getImage();
-          File f = new File("src\\com\\raven\\icon\\logo.png");
+          File f = new File("src\\com\\raven\\icon\\logonen.png");
           return new ImageIcon(f.getAbsolutePath()).getImage();
         
     }
