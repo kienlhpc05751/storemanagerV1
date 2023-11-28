@@ -12,6 +12,7 @@ import com.raven.form.Form_3;
 import com.raven.form.Form_Home;
 import com.raven.form.NhanVienView;
 import com.raven.form.KhachHangView;
+import com.raven.form.SanPhamView1;
 import com.raven.model.NhanVien;
 import com.raven.utils.XImage;
 import java.awt.Color;
@@ -32,6 +33,7 @@ public class Main extends javax.swing.JFrame {
     private Form_3 form3;
     private KhachHangView khachhang;
     private NhanVienView form4;
+    private SanPhamView1 form5;
 //    private NewJFrame fa;
 
     public Main() {
@@ -44,6 +46,7 @@ public class Main extends javax.swing.JFrame {
         form3 = new Form_3();
         form4 = new NhanVienView();
         khachhang = new KhachHangView();
+        form5 = new SanPhamView1();
 //       fa = new NewJFrame();
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -56,7 +59,7 @@ public class Main extends javax.swing.JFrame {
                 } else if (index == 2) {
                     setForm(khachhang);
                 } else if (index == 3) {
-                    setForm(form3);
+                    setForm(form5);
                 } else if (index == 4) {
                     setForm(form4);
 
@@ -104,6 +107,7 @@ public class Main extends javax.swing.JFrame {
 
         header2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
+        mainPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new java.awt.BorderLayout());
 
