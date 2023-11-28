@@ -15,20 +15,18 @@ import java.util.List;
  *
  * @author Asus
  */
-abstract class SanPhamDao extends StoreDao<Sanpham, String> {
+abstract public class SanPhamDao extends StoreDao<Sanpham, String> {
 
     String INSERT_SQL = "INSERT INTO sanpham(BienTheSP,Maloai,TenSP,KichCo,MauSac,GiaBan,SoLuong)Values(?,?,?,?,?,?,?)";
     String UPDATE_SQL = "UPDATE sanpham SET MaLoai=?, TenSP=?,KichCo=?,MauSac=?,GiaBan=?,SoLuong=? WHERE BienTheSP=?";
     String DELETE_SQL = "DELETE FROM sanpham WHERE BienTheSP=?";
-    String SELECT_ALL_SQL = "SELECT * FROM NguoiHoc";
+    String SELECT_ALL_SQL = "SELECT * FROM sanpham";
     String SELECT_BY_ID_SQL = "SELECT * FROM sanpham WHERE BienTheSP=?";
     String sql = " select * from san "
             + "where HoTen like ? AND "
             + "MaNH NOT IN (select MaNH from HocVien where MaKH = ?)";
-
     //
     String sqlNH1 = "select * from NguoiHoc where MaNH not in ( select MaNH from HocVien)";
-
     String sqlNH = "select * from nguoihoc where maNH not in (select maNH from hocvien where makh = ?)";
 
     @Override
@@ -60,8 +58,6 @@ abstract class SanPhamDao extends StoreDao<Sanpham, String> {
 
     }
 
-  
-
     @Override
     protected List<Sanpham> selectBySql(String sql, Object... args) {
         List<Sanpham> list = new ArrayList<>();
@@ -69,14 +65,74 @@ abstract class SanPhamDao extends StoreDao<Sanpham, String> {
             ResultSet rs = DBHelper.query(sql, args);
             while (rs.next()) {
                 Sanpham enity = new Sanpham();
-                enity.setBienTheSP(rs.getString("MaNH"));
-                enity.setMaLoai(rs.getString("HoTen"));
-                enity.setTenSP(rs.getString("GioiTinh"));
-                enity.setKichCo(rs.getString("DienThoai"));
-                enity.setMauSac(rs.getString("NgaySinh"));
-                enity.setGia(rs.getDouble("Email"));
-                enity.setSoLuong(rs.getInt("GhiChu"));
+                enity.setBienTheSP(rs.getString(1));
+                enity.setMaLoai(rs.getString(2));
+                enity.setTenSP(rs.getString(3));
+                enity.setKichCo(rs.getString(4));
+                enity.setMauSac(rs.getString(5));
+                enity.setGia(rs.getDouble(6));
+                enity.setSoLuong(rs.getInt(7));
                 list.add(enity);
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+//    @Override
+//    protected List<Sanpham> selectBySql1(String sql, Object... args) {
+//        List<Sanpham> list = new ArrayList<>();
+//        try {
+//            ResultSet rs = DBHelper.query(sql, args);
+//            while (rs.next()) {
+//                Sanpham enity = new Sanpham();
+//             
+//                enity.setMaLoai(rs.getString("ma"));
+////                enity.setTenSP(rs.getString(3));
+//              
+//                list.add(enity);
+//            }
+//            rs.getStatement().getConnection().close();
+//            return list;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
+//    }
+    @Override
+    public List<Sanpham> selectAll() {
+        return this.selectBySql(SELECT_ALL_SQL);
+
+    }
+    String SELECT_ALL_LOAI_SQL = "Select * from Sanpham where BienTheSP = ?";
+
+    public List<Sanpham> selectAllLoai(String id) {
+        return this.selectBySql(SELECT_ALL_LOAI_SQL, id);
+    }
+
+//    String SELECT_ALL_LOAI_SQL1 = "SELECT DISTINCT sp.Maloai, l.tenloai\n"
+//            + "FROM sanpham sp\n"
+//            + "JOIN Loaisanpham l ON sp.maloai = l.maloai;";
+    
+    String SELECT_ALL_LOAI_SQL2 = "EXEC GetProductInfo;";
+
+    public List<Sanpham> selectAllLoai1() {
+        return this.selectBySql(SELECT_ALL_LOAI_SQL2);
+    }
+
+    public List<Object[]> getListOfArray(String sql, String[] cols, Object... args) {
+        try {
+            List<Object[]> list = new ArrayList<>();
+            ResultSet rs = DBHelper.query(sql, args);
+            while (rs.next()) {
+                Object[] vals = new Object[cols.length];
+                for (int i = 0; i < cols.length; i++) {
+                    vals[i] = rs.getObject(cols[i]);
+                }
+                list.add(vals);
             }
             rs.getStatement().getConnection().close();
             return list;
@@ -85,17 +141,13 @@ abstract class SanPhamDao extends StoreDao<Sanpham, String> {
         }
     }
 
-//    @Override
-//    protected List<Sanpham> selectBysql(String sql, Object... args) {
-//        
-//    }
-    @Override
-    public List<Sanpham> selectAll() {
-        return this.selectBySql(SELECT_ALL_SQL);
-
+    public List<Object[]> getco() {
+        String sql = "EXEC GetProductInfo;";
+        String[] cols = {"Maloai"};
+        return this.getListOfArray(sql, cols);
     }
-//
 
+//
     public List<Sanpham> selectNotlnCourse(int makh, String keyword) {
 
         return this.selectBySql(sql, "%" + keyword + "%", makh);
@@ -108,12 +160,8 @@ abstract class SanPhamDao extends StoreDao<Sanpham, String> {
     }
 
 //    String sqla = "Select * from NguoiHoc Where HoTen LIKE ?";
-
-    
-    
 //    public List<Sanpham> selectByKeyword(String keyword) {
 //        return this.selectBySql(sqla, "%" + keyword + "%");
 //
 //    }
-
 }

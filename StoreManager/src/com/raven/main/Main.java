@@ -13,6 +13,7 @@ import com.raven.form.Form_Home;
 import com.raven.form.NhanVienView;
 import com.raven.form.KhachHangView;
 import com.raven.form.SanPhamView1;
+//import com.raven.dao.
 import com.raven.model.NhanVien;
 import com.raven.utils.XImage;
 import java.awt.Color;
@@ -84,9 +85,9 @@ public class Main extends javax.swing.JFrame {
         mainPanel.revalidate();
     }
     
-    private void setform(JComponent com){
-        
-    }
+//    private void setform(JComponent com){
+//        
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.

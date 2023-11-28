@@ -7,7 +7,7 @@ package com.raven.form;
 
 //import com.raven.dao.NhanVienDao;
 import com.raven.dao.KhachHangDao;
-import com.raven.dao.NhanVienDao;
+import com.raven.dao.SanPhamDao;
 import com.raven.utils.XDialogHelper;
 import com.raven.utils.XShareHelper;
 import com.raven.utils.Validator;
@@ -19,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import com.raven.utils.MsgBox;
 import com.raven.utils.XDate;
 import com.raven.utils.XImage;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 //import com.raven.dao.
 //import com.raven.dao.
@@ -32,26 +34,242 @@ public class SanPhamView1 extends javax.swing.JPanel {
     /**
      * Creates new form Form_1
      */
-//    sanpham
+//    SanPhamDao1 dao = new SanPhamDao1() {
+//        @Override
+//        public Sanpham selectByName(String k) {
+//            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        }
+//    }
+    String masp = null;
+    int row = 01;
+    SanPhamDao dao = new SanPhamDao() {
+        @Override
+        public Sanpham selectByName(String k) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+    };
+    List<Sanpham> listSP = new ArrayList<>();
+
     public SanPhamView1() {
         initComponents();
-        load();
+        Int();
+        fillTable(listSP);
     }
-  
-//    void chonComboBox(int index) {
-//        if (index >= 0) {
-//            Sanpham cd = listCD.get(index);
-//            listKH = daokh.selectAll1(cd.getMaCD());
+
+    public void Int() {
+        fillCombobox();
+    }
+
+    void chonComboBox(int index) {
+        if (index >= 0) {
+            Sanpham cd = listSP.get(index);
+
+            listSP = dao.selectAllLoai(cd.getBienTheSP());;
+//            System.out.println(listSP);
+            txtMaSP.setText(cd.getBienTheSP());
+            txtTenSP.setText(cd.getTenSP());
 //            txtChuyenDe.setText(cd.getTenCD());
 //            txtHocPhi.setText(String.valueOf(cd.getHocPhi()));
 //            txtSoLuongH.setText(String.valueOf(cd.getThoiLuong()));
 //            maCD = cd.getMaCD();
 //            fillTable(listKH);
-//        }
-//    }
-    
-//    
+        }
+    }
 
+    //fill dữ liệu lên cobombox cboMaloai
+    void fillCombobox() {
+   
+             listSP = dao.selectAll();
+        DefaultComboBoxModel cboModel = (DefaultComboBoxModel) CboMaloai.getModel();
+        cboModel.removeAllElements();
+        for (Sanpham itempCD : listSP) {
+            cboModel.addElement(itempCD.getMaLoai());
+        }
+
+//        System.out.println("Size of listSP: " + listSP.size());
+//        List<Object[]> list = new ArrayList<>();
+//        list = dao.getco();
+//        
+//        System.out.println("Size of listSP: " + listSP.size());
+//
+//        DefaultComboBoxModel cboModel = (DefaultComboBoxModel) CboMaloai.getModel();
+//        cboModel.removeAllElements();
+//        for (Object[] objects : list) {
+//                        cboModel.addElement(objects.row);
+//
+//        }
+     
+
+    }
+    // fill dữ liệu lên bảng
+
+    void fillTable(List<Sanpham> list) {
+        String row[] = {"MaSP", "LoaiSP", "TenSP", "Kichco", "Mausac", "gia ban", "soLuong"};
+        DefaultTableModel model = new DefaultTableModel(row, 0);
+        model.setRowCount(0);
+        listSP = dao.selectAll();
+        for (Sanpham itempKH : listSP) {
+            model.addRow(new Object[]{itempKH.getBienTheSP(), itempKH.getMaLoai(), itempKH.getTenSP(), itempKH.getKichCo(), itempKH.getMauSac(), itempKH.getGia(), itempKH.getSoLuong()});
+        }
+        tblSanPham.setModel(model);
+    }
+// fill lên from dữ liệu trong l
+
+    void setForm(Sanpham kh) {
+
+        txtMaSP.setText(kh.getBienTheSP());
+        // Giả sử ComboBox có kiểu dữ liệu là String
+        String selectedLoai = kh.getMaLoai();
+        CboMaloai.setSelectedItem(selectedLoai);
+        txtTenSP.setText(kh.getTenSP());
+        txtKichCo.setText(kh.getKichCo());
+        txtMauSac.setText(kh.getMauSac());
+        txtGiaBan.setText(String.valueOf(kh.getGia()));
+        txtSoLuong.setText(String.valueOf(kh.getSoLuong()));
+    }
+
+    Sanpham getForm() {
+        Sanpham kh = new Sanpham();
+
+        kh.setBienTheSP(txtMaSP.getText());
+        // Lấy giá trị từ ComboBox
+        Object selectedLoai = CboMaloai.getSelectedItem();
+        if (selectedLoai != null) {
+            // Chuyển đổi và đặt giá trị cho thuộc tính maLoai
+            kh.setMaLoai(selectedLoai.toString());
+        } else {
+            // Xử lý khi không có mục nào được chọn trong ComboBox
+            kh.setMaLoai(null); // hoặc giá trị mặc định khác tùy vào logic của bạn
+        }
+        kh.setTenSP(txtTenSP.getText());
+        kh.setKichCo(txtKichCo.getText());
+        kh.setMauSac(txtMauSac.getText());
+        kh.setGia(Double.parseDouble(txtGiaBan.getText()));
+        kh.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
+
+//        kh.setMaCD(maCD);
+////        kh.setMaKH(maKH);
+//        kh.setThoiLuong(Integer.parseInt(txtSoLuongH.getText()));
+//        kh.setHocPhi(Double.valueOf(txtHocPhi.getText()));
+//        kh.setNgayKG(txtKhaiGiang.getText());
+//        kh.setMaNV(Auth.user.getMaNV());
+//        kh.setNgayTao(txtNgayTao.getText());
+//        kh.setGhiChu(txtGhiChu.getText());
+        return kh;
+    }
+
+    void edit(int index) {
+        Sanpham kh = listSP.get(index);
+        setForm(kh);
+    }
+
+    void first() {
+        this.row = 0;
+        this.edit(row);
+    }
+
+    void prev() {
+        if (this.row < 1) {
+            return;
+        } else {
+            this.row--;
+            this.edit(row);
+        }
+    }
+
+    void next() {
+        if (this.row > tblSanPham.getRowCount() - 2) {
+            return;
+        } else {
+            this.row++;
+            this.edit(row);
+//            System.out.println(row);
+        }
+    }
+
+    void last() {
+        this.row = tblSanPham.getRowCount() - 1;
+        this.edit(row);
+    }
+
+    void insert() {
+        try {
+            dao.insert(getForm());
+            MsgBox.alert(null, "Thêm sản phẩm  Thành Công");
+            fillTable(listSP);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MsgBox.alert(null, "Thêm sản phẩm Thất Bại");
+        }
+//        if (checkFrom()) {
+//            try {
+////                MsgBox.alert(null, "Thêm Khóa Học Thành Công");
+//                daokh.insert(getForm());
+////                fillTable(listKH);
+////                  listCD = daoCD.selectAll();
+//                   fillTable(listKH);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                MsgBox.alert(null, "Thêm Khóa Học Thất Bại");
+//            }
+//        }
+    }
+
+    void update() {
+        try {
+            dao.update(getForm());
+            MsgBox.alert(null, "Cập nhật sản phẩm Thành Công");
+            fillTable(listSP);
+        } catch (Exception e) {
+            MsgBox.alert(null, "Cập nhật sản phẩm Thất Bại");
+        }
+    }
+
+    void delete() {
+        try {
+            dao.delete(String.valueOf(masp));
+            MsgBox.alert(null, "Delete sản phẩm Thành Công");
+            fillTable(listSP);
+        } catch (Exception e) {
+            MsgBox.alert(null, "Delete sản phẩm Thất Bại");
+        }
+//        try {
+//            if (!Auth.isManager()) {
+//                MsgBox.alert(null, "Bạn Không Có Quyền Xóa Khóa Học");
+//                return;
+//            } else {
+//                MsgBox.alert(null, "Delete Khóa Học Thành Công");
+//                daokh.delete(String.valueOf(maKH));
+//            }
+//        } catch (Exception e) {
+//            MsgBox.alert(null, "Delete Khóa Học Thất Bại");
+//        }
+    }
+
+    void clearForm() {
+        Sanpham kh = new Sanpham();
+        this.setForm(kh);
+        fillCombobox();
+        this.row = -1;
+        this.updateStatus();
+    }
+
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblSanPham.getRowCount() - 1);
+//        txtMaNV.setEditable(!edit);
+//        btnThem.setEnabled(!edit);
+//        btnSua.setEnabled(edit);
+//        btnXoa.setEnabled(edit);
+//        btnFrist.setEnabled(edit && !first);
+//        btnPrev.setEnabled(edit && !first);
+//        btnNext.setEnabled(edit && !last);
+//        btnLast.setEnabled(edit && !last);
+    }
+
+//    
+//  00002202708
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,7 +315,7 @@ public class SanPhamView1 extends javax.swing.JPanel {
         btnLamMoi = new javax.swing.JButton();
         btnList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblKhachHang = new javax.swing.JTable();
+        tblSanPham = new javax.swing.JTable();
         lblTitle = new javax.swing.JLabel();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -161,7 +379,6 @@ public class SanPhamView1 extends javax.swing.JPanel {
         lblMaLoai.setForeground(new java.awt.Color(27, 51, 61));
         lblMaLoai.setText("MaLoai");
 
-        CboMaloai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         CboMaloai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CboMaloaiActionPerformed(evt);
@@ -407,9 +624,9 @@ public class SanPhamView1 extends javax.swing.JPanel {
 
         tabs.addTab("CẬP NHẬT", pnUpdate);
 
-        tblKhachHang.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        tblKhachHang.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        tblKhachHang.setModel(new javax.swing.table.DefaultTableModel(
+        tblSanPham.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        tblSanPham.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -428,18 +645,18 @@ public class SanPhamView1 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tblKhachHang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tblKhachHang.setGridColor(new java.awt.Color(204, 204, 204));
-        tblKhachHang.setRowHeight(30);
-        tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblSanPham.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tblSanPham.setGridColor(new java.awt.Color(204, 204, 204));
+        tblSanPham.setRowHeight(30);
+        tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblKhachHangMouseClicked(evt);
+                tblSanPhamMouseClicked(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblKhachHangMouseReleased(evt);
+                tblSanPhamMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tblKhachHang);
+        jScrollPane1.setViewportView(tblSanPham);
 
         javax.swing.GroupLayout btnListLayout = new javax.swing.GroupLayout(btnList);
         btnList.setLayout(btnListLayout);
@@ -483,9 +700,9 @@ public class SanPhamView1 extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblKhachHangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseReleased
+    private void tblSanPhamMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseReleased
 
-    }//GEN-LAST:event_tblKhachHangMouseReleased
+    }//GEN-LAST:event_tblSanPhamMouseReleased
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         delete();
@@ -500,23 +717,27 @@ public class SanPhamView1 extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        this.index = tblKhachHang.getRowCount() - 1;
-        this.edit();
+//        this.index = tblSanPham.getRowCount() - 1;
+//        this.edit();
+        last();
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        this.index++;
-        this.edit();
+//        this.index++;
+//        this.edit();
+        next();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        this.index--;
-        this.edit();
+//        this.index--;
+//        this.edit();
+        prev();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
-        this.index = 0;
-        this.edit();
+//        this.index = 0;
+//        this.edit();
+        first();
     }//GEN-LAST:event_btnfirstActionPerformed
 
     private void txtMauSacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMauSacActionPerformed
@@ -524,21 +745,22 @@ public class SanPhamView1 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtMauSacActionPerformed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-        clear();
+        clearForm();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
-    private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
-        if (evt.getClickCount() == 2) {
-            this.index = tblKhachHang.rowAtPoint(evt.getPoint());
-            if (this.index >= 0) {
-                this.edit();
-                tabs.setSelectedIndex(0);
-                
-            }
-        }
-
-
-    }//GEN-LAST:event_tblKhachHangMouseClicked
+    private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
+//        if (evt.getClickCount() == 2) {
+//            this.index = tblSanPham.rowAtPoint(evt.getPoint());
+//            if (this.index >= 0) {
+//                this.edit();
+//                tabs.setSelectedIndex(0);
+//                
+//            }
+//        }
+        this.row = tblSanPham.getSelectedRow();
+        this.edit(row);
+        tabs.setSelectedIndex(0);
+    }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void txtTenSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenSPActionPerformed
         // TODO add your handling code here:
@@ -546,6 +768,9 @@ public class SanPhamView1 extends javax.swing.JPanel {
 
     private void CboMaloaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CboMaloaiActionPerformed
         // TODO add your handling code here:
+//           row = CboMaloai.getSelectedIndex();
+//           System.out.println(row);
+//        chonComboBox(row);
     }//GEN-LAST:event_CboMaloaiActionPerformed
 
 
@@ -581,7 +806,7 @@ public class SanPhamView1 extends javax.swing.JPanel {
     private javax.swing.JPanel pnButton;
     private javax.swing.JPanel pnUpdate;
     private javax.swing.JTabbedPane tabs;
-    private javax.swing.JTable tblKhachHang;
+    private javax.swing.JTable tblSanPham;
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtKichCo;
     private javax.swing.JTextField txtMaSP;
@@ -589,193 +814,193 @@ public class SanPhamView1 extends javax.swing.JPanel {
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTenSP;
     // End of variables declaration//GEN-END:variables
-    int index = -1; // vị trí của khách hàng đang hiển thị trên form
-    KhachHangDao khDao = new KhachHangDao();
-
-    void load() {
-        DefaultTableModel model = (DefaultTableModel) tblKhachHang.getModel();
-        model.setRowCount(0);
-        try {
-            List<KhachHang> list = khDao.selectAll();
-            for (KhachHang kh : list) {
-                Object[] row = {
-                    kh.getMaKH(),
-                    kh.getTenKH(),
-                    kh.getEmail(),
-                    kh.getSDT(),
-                    kh.getDiaChi()
-                };
-                model.addRow(row);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            System.err.println("Lỗi truy vấn: " + e.getMessage());
-        }
-    }
-
-    void edit() {
-        try {
-            Integer makh = (Integer) tblKhachHang.getValueAt(this.index, 0);
-            KhachHang model = khDao.findByID(makh);
-            if (model != null) {
-                this.setModel(model);
-//                tabs.setSelectedIndex(0);
-                this.setStatus(false);
-            }
-        } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn!");
-            System.err.println("Lỗi truy vấn: " + e.getMessage());
-        }
-    }
-
-    void setModel(KhachHang model) {
-        txtMaSP.setText(String.valueOf(model.getMaKH()));
-        txtTenSP.setText(model.getTenKH());
-        txtKichCo.setText(model.getEmail());
-        txtMauSac.setText(model.getSDT());
-        txtGiaBan.setText(model.getDiaChi());
-    }
-    
-    KhachHang getModel() {
-        KhachHang model = new KhachHang();
-        model.setMaKH(Integer.valueOf(txtMaSP.getText()));
-        model.setTenKH(txtTenSP.getText());
-        model.setEmail(txtKichCo.getText());
-        model.setSDT(txtMauSac.getText());
-        model.setDiaChi(txtGiaBan.getText());
-        return model;
-    }
-
-    void setStatus(boolean insertable) {
-        txtMaSP.setEditable(insertable);
-        btnThem.setEnabled(insertable);
-        btnSua.setEnabled(!insertable);
-        btnXoa.setEnabled(!insertable);
-
-        boolean first = this.index > 0;
-        boolean last = this.index < tblKhachHang.getRowCount() - 1;
-        btnfirst.setEnabled(!insertable && first);
-        btnPrev.setEnabled(!insertable && first);
-        btnNext.setEnabled(!insertable && last);
-        btnLast.setEnabled(!insertable && last);
-    }
-
-    void insert() {
-       if (!validator()) {
-            return;
-        }
-
-        KhachHang nv = getModel();
-
-        if (nv == null) {
-            return;
-        }
-
-        KhachHangDao.getInstant().insert(nv);
-        MsgBox.alert(this, "Thêm thành công " + " " + nv.getTenKH());
-        clear();
-        load();
-
-    }
-
-    void update() {
-        if (!validator()) {
-            return;
-        }
-
-        KhachHang kh = getModel();
-
-        if (kh == null) {
-            return;
-        }
-
-        KhachHangDao.getInstant().update(kh);
-        MsgBox.alert(this, "Sửa thành công " + " " + kh.getTenKH());
-        clear();
-
-//        this.dispose();
-        load();
-
-    }
-
-    void delete() {
-        if (MsgBox.confirm(this, "Ban that su muon xoa nhan vien nay khong?")) {
-           Integer maKh = Integer.valueOf(txtMaSP.getText());
-            try {
-                khDao.delete(maKh);
-                this.load();
-                this.clear();
-                MsgBox.alert(this, "Xoa thanh cong!");
-            } catch (Exception e) {
-                MsgBox.alert(this, "Xoa that bai!");
-            }
-        }
+//    int index = -1; // vị trí của khách hàng đang hiển thị trên form
+//    KhachHangDao khDao = new KhachHangDao();
 //
-//int[] list = tblNhanVien.getSelectedRows();
-//
-//        if (list.length <= 0) {
-//            return;
-//        }
-//
-//        boolean check = MsgBox.confirm(this, "Điều này sẽ làm mất đi " + list.length + " nhân viên của cửa hàng đó >.<");
-//
-//        if (!check) {
-//            tblNhanVien.clearSelection();
-//            return;
-//        }
-//
-//        for (int selectedRow : list) {
-//            String id = (String) tblNhanVien.getValueAt(selectedRow, 1);
-//            if (id.endsWith(Auth.user.getMaNV())) {
-//                MsgBox.alert(this, "Không thể xóa tài khoản đang đăng nhập !");
-//                return;
+//    void load() {
+//        DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
+//        model.setRowCount(0);
+//        try {
+//            List<KhachHang> list = khDao.selectAll();
+//            for (KhachHang kh : list) {
+//                Object[] row = {
+//                    kh.getMaKH(),
+//                    kh.getTenKH(),
+//                    kh.getEmail(),
+//                    kh.getSDT(),
+//                    kh.getDiaChi()
+//                };
+//                model.addRow(row);
 //            }
-//            NhanVienDao.getInstant().delete(id);
-//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            System.err.println("Lỗi truy vấn: " + e.getMessage());
 //        }
+//    }
+//
+//    void edit() {
+//        try {
+//            Integer makh = (Integer) tblSanPham.getValueAt(this.index, 0);
+//            KhachHang model = khDao.findByID(makh);
+//            if (model != null) {
+//                this.setModel(model);
+////                tabs.setSelectedIndex(0);
+//                this.setStatus(false);
+//            }
+//        } catch (Exception e) {
+//            MsgBox.alert(this, "Lỗi truy vấn!");
+//            System.err.println("Lỗi truy vấn: " + e.getMessage());
+//        }
+//    }
+//
+//    void setModel(KhachHang model) {
+//        txtMaSP.setText(String.valueOf(model.getMaKH()));
+//        txtTenSP.setText(model.getTenKH());
+//        txtKichCo.setText(model.getEmail());
+//        txtMauSac.setText(model.getSDT());
+//        txtGiaBan.setText(model.getDiaChi());
+//    }
+//    
+//    KhachHang getModel() {
+//        KhachHang model = new KhachHang();
+//        model.setMaKH(Integer.valueOf(txtMaSP.getText()));
+//        model.setTenKH(txtTenSP.getText());
+//        model.setEmail(txtKichCo.getText());
+//        model.setSDT(txtMauSac.getText());
+//        model.setDiaChi(txtGiaBan.getText());
+//        return model;
+//    }
+//
+//    void setStatus(boolean insertable) {
+//        txtMaSP.setEditable(insertable);
+//        btnThem.setEnabled(insertable);
+//        btnSua.setEnabled(!insertable);
+//        btnXoa.setEnabled(!insertable);
+//
+//        boolean first = this.index > 0;
+//        boolean last = this.index < tblSanPham.getRowCount() - 1;
+//        btnfirst.setEnabled(!insertable && first);
+//        btnPrev.setEnabled(!insertable && first);
+//        btnNext.setEnabled(!insertable && last);
+//        btnLast.setEnabled(!insertable && last);
+//    }
+//
+//    void insert() {
+//       if (!validator()) {
+//            return;
+//        }
+//
+//        KhachHang nv = getModel();
+//
+//        if (nv == null) {
+//            return;
+//        }
+//
+//        KhachHangDao.getInstant().insert(nv);
+//        MsgBox.alert(this, "Thêm thành công " + " " + nv.getTenKH());
+//        clear();
 //        load();
-//        tblNhanVien.clearSelection();
-    }
-
-    void clear() {
-        this.setModel(new KhachHang());
-        this.setStatus(true);
-        this.index = -1;
-    }
-
-    private boolean validator() {
-        boolean flag = true;
-        String mess = "";
-
-        if (Validator.isEmpty(txtTenSP)) {
-            mess += "Bạn chưa nhập tên cho khách hàng \n";
-            flag = false;
-        } else {
-            if (!Validator.isValidName(txtTenSP.getText())) {
-                mess += "Tên không hợp lệ \n";
-                flag = false;
-            }
-        }
-
-        if (Validator.isEmpty(txtMauSac)) {
-            mess += "Bạn chưa nhập số điện thoại cho khách hàng \n";
-            flag = false;
-        } else {
-            if (!Validator.isTel(txtMauSac.getText())) {
-                mess += "Số điện thoại không hợp lệ \n";
-                flag = false;
-            }
-        }
-        if (Validator.isEmpty(txtKichCo)) {
-            mess += "Bạn chưa nhập email cho khách hàng \n";
-            flag = false;
-        } else {
-            if (!Validator.isEmail(txtKichCo.getText())) {
-                mess += "Email không hợp lệ \n";
-                flag = false;
-            }
-        }
-
-        return flag;
-    }
+//
+//    }
+//
+//    void update() {
+//        if (!validator()) {
+//            return;
+//        }
+//
+//        KhachHang kh = getModel();
+//
+//        if (kh == null) {
+//            return;
+//        }
+//
+//        KhachHangDao.getInstant().update(kh);
+//        MsgBox.alert(this, "Sửa thành công " + " " + kh.getTenKH());
+//        clear();
+//
+////        this.dispose();
+//        load();
+//
+//    }
+//
+//    void delete() {
+//        if (MsgBox.confirm(this, "Ban that su muon xoa nhan vien nay khong?")) {
+//           Integer maKh = Integer.valueOf(txtMaSP.getText());
+//            try {
+//                khDao.delete(maKh);
+//                this.load();
+//                this.clear();
+//                MsgBox.alert(this, "Xoa thanh cong!");
+//            } catch (Exception e) {
+//                MsgBox.alert(this, "Xoa that bai!");
+//            }
+//        }
+////
+////int[] list = tblNhanVien.getSelectedRows();
+////
+////        if (list.length <= 0) {
+////            return;
+////        }
+////
+////        boolean check = MsgBox.confirm(this, "Điều này sẽ làm mất đi " + list.length + " nhân viên của cửa hàng đó >.<");
+////
+////        if (!check) {
+////            tblNhanVien.clearSelection();
+////            return;
+////        }
+////
+////        for (int selectedRow : list) {
+////            String id = (String) tblNhanVien.getValueAt(selectedRow, 1);
+////            if (id.endsWith(Auth.user.getMaNV())) {
+////                MsgBox.alert(this, "Không thể xóa tài khoản đang đăng nhập !");
+////                return;
+////            }
+////            NhanVienDao.getInstant().delete(id);
+////
+////        }
+////        load();
+////        tblNhanVien.clearSelection();
+//    }
+//
+//    void clear() {
+//        this.setModel(new KhachHang());
+//        this.setStatus(true);
+//        this.index = -1;
+//    }
+//
+//    private boolean validator() {
+//        boolean flag = true;
+//        String mess = "";
+//
+//        if (Validator.isEmpty(txtTenSP)) {
+//            mess += "Bạn chưa nhập tên cho khách hàng \n";
+//            flag = false;
+//        } else {
+//            if (!Validator.isValidName(txtTenSP.getText())) {
+//                mess += "Tên không hợp lệ \n";
+//                flag = false;
+//            }
+//        }
+//
+//        if (Validator.isEmpty(txtMauSac)) {
+//            mess += "Bạn chưa nhập số điện thoại cho khách hàng \n";
+//            flag = false;
+//        } else {
+//            if (!Validator.isTel(txtMauSac.getText())) {
+//                mess += "Số điện thoại không hợp lệ \n";
+//                flag = false;
+//            }
+//        }
+//        if (Validator.isEmpty(txtKichCo)) {
+//            mess += "Bạn chưa nhập email cho khách hàng \n";
+//            flag = false;
+//        } else {
+//            if (!Validator.isEmail(txtKichCo.getText())) {
+//                mess += "Email không hợp lệ \n";
+//                flag = false;
+//            }
+//        }
+//
+//        return flag;
+//    }
 }
