@@ -378,8 +378,7 @@
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="lblMaNV9" min="-2" pref="80" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jDateChooser1" min="-2" pref="229" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="235" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lblHinhAnh" max="32767" attributes="0"/>
                               </Group>
@@ -439,8 +438,8 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="txtEmail" min="-2" pref="29" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                      <Component id="jDateChooser1" min="-2" pref="33" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                                       <Component id="lblMaNV9" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -608,8 +607,6 @@
                       <Events>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblHinhAnhMouseClicked"/>
                       </Events>
-                    </Component>
-                    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="cboNhanVien">
                       <Properties>
