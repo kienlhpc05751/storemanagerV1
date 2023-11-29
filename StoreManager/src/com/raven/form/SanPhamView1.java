@@ -68,7 +68,7 @@ public class SanPhamView1 extends javax.swing.JPanel {
     void chonComboBox(int index) {
         if (index >= 0) {
             LoaiSanPham cd = listLSP.get(index);
-
+               
 //            listLSP = daosp.selectAll(cd.getMaloaiSP());;
 //            System.out.println(listSP);
 //            txtMaSP.setText(cd.getBienTheSP());

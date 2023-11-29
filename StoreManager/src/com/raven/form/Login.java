@@ -10,7 +10,10 @@ import com.raven.main.Main;
 import com.raven.model.NhanVien;
 import com.raven.utils.Auth;
 import com.raven.utils.MsgBox;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,22 +33,95 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(this);
     }
 
+    public void DangNhap() {
+        if (checkFrom()) {
+            String manv = txtUserName.getText();
+            String matKhau = new String(txtPassword.getPassword());
+            NhanVien nhanVien = nvdao.selectById(manv);
+            if (nhanVien == null) {
+                txtUserName.requestFocus();
+                txtUserName.setBackground(Color.red);
+                MsgBox.alert(this, "Sai tên đăng nhập !");
+            } else if (!matKhau.equals(nhanVien.getMatKhau())) {
+                txtPassword.requestFocus();
+                txtPassword.setBackground(null);
+                txtPassword.setBackground(Color.red);
+                MsgBox.alert(this, "Sai mật khẩu !");
+            } else {
+                MsgBox.alert(this, "Đăng nhập thành công !");
+
+                Auth.user = nhanVien;
+//           new QuanLy.QuanLyNhanVien().setVisible(true);
+//                new quanlydaotao.mainEduSys().setVisible(true);
+                new Main().setVisible(true);
+//                this.dispose();
+                this.dispose();
+            }
+        }
+    }
+
+    public boolean checkFrom() {
+//          String ma = txtMaNV
+        // List to store error messages
+        List<String> errorMessages = new ArrayList<>();
+
+        if (txtUserName.getText().isEmpty()) {
+            errorMessages.add("Vui lòng nhập mã đăng nhập");
+            txtUserName.setBackground(Color.red);
+            txtUserName.requestFocus();
+        } else if (txtUserName.getText().length() > 5) {
+            errorMessages.add("Vui lòng nhập dưới 5 kí tự");
+            txtUserName.setBackground(Color.red);
+            txtUserName.requestFocus();
+        } else {
+            txtUserName.setBackground(null);  // Reset background to white if not empty
+        }
+
+        if (txtPassword.getText().isEmpty()) {
+            errorMessages.add("Vui lòng nhập mật khẩu");
+            txtPassword.setBackground(Color.red);
+            txtPassword.requestFocus();
+        } else {
+            txtPassword.setBackground(null);  // Reset background to white if not empty
+        }
+
+        // Check if there were any errors
+        if (!errorMessages.isEmpty()) {
+            // Display error messages
+            StringBuilder errorMessage = new StringBuilder("Lỗi:\n");
+            for (String error : errorMessages) {
+                errorMessage.append("- ").append(error).append("\n");
+            }
+            MsgBox.alert(this, errorMessage.toString());
+
+            // Return false indicating errors
+            return false;
+        }
+
+        // Return true if no errors
+        return true;
+    }
+
+//    }
     private void login() {
         String manv = txtUserName.getText();
         String mk = new String(txtPassword.getPassword());
 //            nv = nvdao.selectById(manv);
         NhanVien nv = nvdao.selectById(manv);
         System.out.println(nv.getMaNV());
-                System.out.println(nv.getMatKhau());
+        System.out.println(nv.getMatKhau());
+        System.out.println(manv);
+        System.out.println(mk);
 
         if (nv == null) {
             MsgBox.alert(this, "Sai tên đăng nhập!");
-        } else if (!mk.equals(nv.getMatKhau())) {
+        } else if (mk.equals(nv.getMatKhau())) {
             MsgBox.alert(this, "Sai mật khẩu!");
         } else {
             System.out.println("Logged in successfully...");
             MsgBox.alert(this, "Đăng nhập thành công!");
             Auth.user = nv;
+            System.out.println(Auth.user);
             this.dispose();
         }
     }
@@ -145,6 +221,11 @@ public class Login extends javax.swing.JFrame {
         txtPassword.setBackground(new java.awt.Color(255, 249, 209));
         txtPassword.setText("password1");
         txtPassword.setBorder(null);
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPasswordKeyPressed(evt);
@@ -229,21 +310,24 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        if (txtUserName.getText().trim().length() > 0) {
-            if (txtPassword.getPassword().length > 0) {
-                this.login();
-                Main MainFrame = new Main();
-                MainFrame.setVisible(true);
-                MainFrame.pack();
-                MainFrame.setLocationRelativeTo(null);
-                this.dispose();
+//        if (txtUserName.getText().trim().length() > 0) {
+//            if (txtPassword.getPassword().length > 0) {
+//                this.login();
+//                Main MainFrame = new Main();
+//                MainFrame.setVisible(true);
+//                MainFrame.pack();
+//                MainFrame.setLocationRelativeTo(null);
+//                this.dispose();
+//
+//            } else {
+//                MsgBox.alert(this, "Không được để trống mật khẩu.");
+//            }
+//        } else {
+//            MsgBox.alert(this, "Không được để trống tên đăng nhập.");
+//        }
 
-            } else {
-                MsgBox.alert(this, "Không được để trống mật khẩu.");
-            }
-        } else {
-            MsgBox.alert(this, "Không được để trống tên đăng nhập.");
-        }
+        DangNhap();
+
 //        Main MainFrame = new Main();
 //                MainFrame.setVisible(true);
 //                MainFrame.pack();
@@ -286,6 +370,10 @@ public class Login extends javax.swing.JFrame {
     private void txtUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserNameActionPerformed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
 
     /**
      * @param args the command line arguments
