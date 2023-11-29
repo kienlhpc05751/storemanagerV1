@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.raven.dao;
- 
+
 import com.raven.db.DBHelper;
 import com.raven.model.LoaiSanPham;
 import com.raven.model.Sanpham;
@@ -16,9 +16,12 @@ import java.util.List;
  *
  * @author Asus
  */
-abstract public class LoaiSpDAO extends StoreDao<LoaiSanPham, String>{
-    String SELECT_ALL_SQL ="select * from LoaiSanPham";
-    
+abstract public class LoaiSpDAO extends StoreDao<LoaiSanPham, String> {
+
+    String SELECT_ALL_SQL = "select * from LoaiSanPham";
+    String SELECT_ALL_ID_SQL = "select * from LoaiSanPham where maloai = ?";
+
+
     @Override
     protected List<LoaiSanPham> selectBySql(String sql, Object... args) {
         List<LoaiSanPham> list = new ArrayList<>();
@@ -37,35 +40,48 @@ abstract public class LoaiSpDAO extends StoreDao<LoaiSanPham, String>{
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
-      public List<LoaiSanPham> selectAll() {
+    public List<LoaiSanPham> selectAll() {
         return this.selectBySql(SELECT_ALL_SQL);
 
     }
-       @Override
-        public void insert(LoaiSanPham e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
 
-        @Override
-        public void update(LoaiSanPham e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
+    @Override
+    public void insert(LoaiSanPham e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-        @Override
-        public void delete(String k) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
+    @Override
+    public void update(LoaiSanPham e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-        @Override
-        public LoaiSanPham selectById(String k) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
+    @Override
+    public void delete(String k) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-        @Override
-        public LoaiSanPham selectByName(String k) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
+//    @Override
+    public LoaiSanPham selectById1(String k) {
+//        return  this.selectBySql(SELECT_ALL_ID_SQL, args)
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
+    @Override
+      public LoaiSanPham selectById(String k) {
+
+        List<LoaiSanPham> list = this.selectBySql(SELECT_ALL_ID_SQL, k);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+
+    }
+
+    @Override
+    public LoaiSanPham selectByName(String k) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

@@ -68,8 +68,10 @@ public class SanPhamView1 extends javax.swing.JPanel {
     void chonComboBox(int index) {
         if (index >= 0) {
             LoaiSanPham cd = listLSP.get(index);
-               
-//            listLSP = daosp.selectAll(cd.getMaloaiSP());;
+            
+//              listLSP = (List<LoaiSanPham>) daosp.selectById(cd.getMaloaiSP());
+              
+//            listLSP = daosp.selectById(cd.getMaLoai());
 //            System.out.println(listSP);
 //            txtMaSP.setText(cd.getBienTheSP());
 //            txtTenSP.setText(cd.getTenSP());
@@ -89,7 +91,7 @@ public class SanPhamView1 extends javax.swing.JPanel {
         DefaultComboBoxModel cboModel = (DefaultComboBoxModel) CboMaloai.getModel();
         cboModel.removeAllElements();
         for  (LoaiSanPham itempCD : listLSP) {
-            cboModel.addElement(itempCD.toString());
+            cboModel.addElement(itempCD.getMaloaiSP());
         }
    
 //             listSP = dao.selectAll();
@@ -781,9 +783,9 @@ public class SanPhamView1 extends javax.swing.JPanel {
 
     private void CboMaloaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CboMaloaiActionPerformed
         // TODO add your handling code here:
-//           row = CboMaloai.getSelectedIndex();
-//           System.out.println(row);
-//        chonComboBox(row);
+           row = CboMaloai.getSelectedIndex();
+           System.out.println(row);
+           chonComboBox(row);
     }//GEN-LAST:event_CboMaloaiActionPerformed
 
 
