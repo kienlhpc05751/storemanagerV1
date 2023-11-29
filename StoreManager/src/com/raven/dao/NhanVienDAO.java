@@ -65,14 +65,14 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
     public void update(NhanVien model) {
         String sql = "update nhanvien set TenNV = ?, Matkhau = ?, NgaySinh = ?, Email = ?, Phone =?, vaiTro =?, Hinh =? where MaNV = ?";
         DBHelper.update(sql,
-                model.getMaNV(),
                 model.getTenNV(),
                 model.getMatKhau(),
                 model.getNgaySinh(),
                 model.getEmail(),
                 model.getSDT(),
                 model.getVaiTro(),
-                model.getHinhAnh());
+                model.getHinhAnh(),
+                model.getMaNV());
     }
 
     @Override
@@ -172,4 +172,16 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
 //        return null;
 //    }
 
+    public List<NhanVien> selectByKeyword(String keyword) {
+        String sql = "select * from nhanvien\n"
+                + "where (TenNV like ? or MaNV like ? or Email like ? or SDT like ?)";
+
+        if (keyword.equals("") || keyword == null) {
+            return selectAll();
+        }
+
+        keyword = "%" + keyword + "%";
+        return selectBySql(sql, keyword, keyword, keyword, keyword);
+
+    }
 }

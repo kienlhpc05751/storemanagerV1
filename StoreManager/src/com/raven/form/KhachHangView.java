@@ -7,17 +7,11 @@ package com.raven.form;
 
 //import com.raven.dao.NhanVienDao;
 import com.raven.dao.KhachHangDao;
-import com.raven.dao.NhanVienDao;
-import com.raven.utils.XDialogHelper;
-import com.raven.utils.XShareHelper;
 import com.raven.utils.Validator;
-import com.raven.main.Main;
 import com.raven.model.KhachHang;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import com.raven.utils.MsgBox;
-import com.raven.utils.XDate;
-import com.raven.utils.XImage;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,9 +28,7 @@ public class KhachHangView extends javax.swing.JPanel {
         load();
     }
 
-    
 //    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -464,7 +456,7 @@ public class KhachHangView extends javax.swing.JPanel {
             if (this.index >= 0) {
                 this.edit();
                 tabs.setSelectedIndex(1);
-                
+
             }
         }
 
@@ -553,7 +545,7 @@ public class KhachHangView extends javax.swing.JPanel {
         txtSDT.setText(model.getSDT());
         txtDiaChi.setText(model.getDiaChi());
     }
-    
+
     KhachHang getModel() {
         KhachHang model = new KhachHang();
         model.setMaKH(Integer.valueOf(txtMaKH.getText()));
@@ -579,20 +571,25 @@ public class KhachHangView extends javax.swing.JPanel {
     }
 
     void insert() {
-       if (!validator()) {
-            return;
-        }
 
         KhachHang nv = getModel();
+
+        if (!validator()) {
+            return;
+        }
 
         if (nv == null) {
             return;
         }
-
-        KhachHangDao.getInstant().insert(nv);
-        MsgBox.alert(this, "Thêm thành công " + " " + nv.getTenKH());
-        clear();
-        load();
+         try {
+            khDao.insert(nv);
+            this.load();
+            this.clear();
+            MsgBox.alert(this, "Thêm mới thành công!");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Thêm mới thất bại!");
+        }
+       
 
     }
 
@@ -608,24 +605,23 @@ public class KhachHangView extends javax.swing.JPanel {
         }
 
         KhachHangDao.getInstant().update(kh);
-        MsgBox.alert(this, "Sửa thành công " + " " + kh.getTenKH());
+        MsgBox.alert(this, "Cập nhật thành công " + " " + kh.getTenKH());
         clear();
 
-//        this.dispose();
         load();
 
     }
 
     void delete() {
-        if (MsgBox.confirm(this, "Ban that su muon xoa nhan vien nay khong?")) {
-           Integer maKh = Integer.valueOf(txtMaKH.getText());
+        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xóa khách hàng này không?")) {
+            Integer maKh = Integer.valueOf(txtMaKH.getText());
             try {
                 khDao.delete(maKh);
                 this.load();
                 this.clear();
-                MsgBox.alert(this, "Xoa thanh cong!");
+                MsgBox.alert(this, "Xóa thành công!");
             } catch (Exception e) {
-                MsgBox.alert(this, "Xoa that bai!");
+                MsgBox.alert(this, "Xóa thất bại!");
             }
         }
 //

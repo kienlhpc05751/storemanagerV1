@@ -1,6 +1,7 @@
 package com.raven.utils;
 
 //import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JDateChooser;
 import java.util.Date;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -65,10 +66,13 @@ public class Validator {
     public static boolean isEmpty(JTextArea input) {
         return input.getText().equals("");
     }
+    public static boolean isValidDate(Date date) {
+        return (XDate.now().getYear() - date.getYear()) >= 16;
+    }
 
-//    public static boolean isEmpty(JDateChooser input) {
-//        return input.getDate() == null;
-//    }
+    public static boolean isEmpty(JDateChooser input) {
+        return input.getDate() == null;
+    }
     
     public static boolean isPositiveNumber(double input) {
         if( input < 0){
