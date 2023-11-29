@@ -140,17 +140,17 @@ public class NhanVienView extends javax.swing.JPanel {
         tblNhanVien.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã nhân viên", "Tên nhân viên", "Email", "SDT", "Ngày Sinh", "Chức Vụ"
+                "Mã nhân viên", "Tên nhân viên", "Email", "SDT", "Ngày Sinh", "Chức Vụ", "ảnh"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -646,12 +646,11 @@ public class NhanVienView extends javax.swing.JPanel {
                 Object[] row = {
                     nv.getMaNV(),
                     nv.getTenNV(),
-                    //                    nv.getMatKhau(),
-//                    XDate.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
                     nv.getNgaySinh(),
                     nv.getEmail(),
                     nv.getSDT(),
-                    nv.getVaiTro() ? "Quản lý" : "Nhân viên"
+                    nv.getVaiTro() ? "Quản lý" : "Nhân viên",
+                    nv.getHinhAnh()
                 };
                 model.addRow(row);
 //                System.out.println("rỗng");
@@ -685,12 +684,29 @@ public class NhanVienView extends javax.swing.JPanel {
         txtSDT.setText(model.getSDT());
         cboQuanLy.setSelected(model.getVaiTro());
         cboNhanVien.setSelected(!model.getVaiTro());
-        if (model.getHinhAnh() != null) {
+        if (model.getHinhAnh()!= null) {
             lblHinhAnh.setToolTipText(model.getHinhAnh());
-            lblHinhAnh.setIcon(XShareHelper.scaledImage(model.getHinhAnh(), lblHinhAnh));
+            ImageIcon icon = XImage.read(model.getHinhAnh());  // Tạo ImageIcon từ hình
+            lblHinhAnh.setIcon(icon);
+            // Cập nhật kích thước hình cho lblHinh
+            int width = lblHinhAnh.getWidth();
+            int height = lblHinhAnh.getHeight();
+            if (width > 0 && height > 0) {
+                Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                lblHinhAnh.setIcon(new ImageIcon(img));
+            }
         } else {
             lblHinhAnh.setIcon(null);
+//            lblHinh.
         }
+//        
+//        
+//        if (model.getHinhAnh() != null) {
+//            lblHinhAnh.setToolTipText(model.getHinhAnh());
+//            lblHinhAnh.setIcon(XShareHelper.scaledImage(model.getHinhAnh(), lblHinhAnh));
+//        } else {
+//            lblHinhAnh.setIcon(null);
+//        }
     }
 
     NhanVien getModel() {
@@ -703,6 +719,7 @@ public class NhanVienView extends javax.swing.JPanel {
         model.setSDT(txtSDT.getText());
         model.setVaiTro(cboQuanLy.isSelected());
         model.setHinhAnh(lblHinhAnh.getToolTipText());
+        
         System.out.println(lblHinhAnh.getToolTipText() + " getform");
         return model;
     }
@@ -727,7 +744,7 @@ public class NhanVienView extends javax.swing.JPanel {
         try {
             nvDao.insert(nv);
             this.load();
-            this.clear();
+//            this.clear();
             MsgBox.alert(this, "Them moi thanh cong!");
         } catch (Exception e) {
             MsgBox.alert(this, "Them that bai!");
@@ -741,9 +758,10 @@ public class NhanVienView extends javax.swing.JPanel {
         try {
             nvDao.update(nv);
             this.load();
-            this.clear();
+//            this.clear();
             MsgBox.alert(this, "Cap nhat thanh cong!");
         } catch (Exception e) {
+            e.printStackTrace();
             MsgBox.alert(this, "Cap nhat that bai!");
         }
 
@@ -758,6 +776,7 @@ public class NhanVienView extends javax.swing.JPanel {
                 this.clear();
                 MsgBox.alert(this, "Xoa thanh cong!");
             } catch (Exception e) {
+                e.printStackTrace();
                 MsgBox.alert(this, "Xoa that bai!");
             }
         }

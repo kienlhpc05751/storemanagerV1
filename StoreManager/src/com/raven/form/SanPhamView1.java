@@ -33,27 +33,14 @@ import javax.swing.JOptionPane;
  */
 public class SanPhamView1 extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Form_1
-     */
-//    SanPhamDao1 dao = new SanPhamDao1() {
-//        @Override
-//        public Sanpham selectByName(String k) {
-//            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//        }
-//    }
     String masp = null;
     int row = 01;
     SanPhamDao dao = new SanPhamDao() {
-        @Override
-        public Sanpham selectByName(String k) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
     };
     List<Sanpham> listSP = new ArrayList<>();
-    LoaiSpDAO daosp = new LoaiSpDAO(){};
+    LoaiSpDAO daosp = new LoaiSpDAO() {
+    };
     List<LoaiSanPham> listLSP = new ArrayList<>();
-    
 
     public SanPhamView1() {
         initComponents();
@@ -68,9 +55,8 @@ public class SanPhamView1 extends javax.swing.JPanel {
     void chonComboBox(int index) {
         if (index >= 0) {
             LoaiSanPham cd = listLSP.get(index);
-            
+
 //              listLSP = (List<LoaiSanPham>) daosp.selectById(cd.getMaloaiSP());
-              
 //            listLSP = daosp.selectById(cd.getMaLoai());
 //            System.out.println(listSP);
 //            txtMaSP.setText(cd.getBienTheSP());
@@ -85,22 +71,22 @@ public class SanPhamView1 extends javax.swing.JPanel {
 
     //fill dữ liệu lên cobombox cboMaloai
     void fillCombobox() {
-        
-        
-                     listLSP = daosp.selectAll();
+
+        listLSP = daosp.selectAll();
         DefaultComboBoxModel cboModel = (DefaultComboBoxModel) CboMaloai.getModel();
         cboModel.removeAllElements();
-        for  (LoaiSanPham itempCD : listLSP) {
+        cboModel.addElement("vui lòng chọn !");
+        for (LoaiSanPham itempCD : listLSP) {
+
             cboModel.addElement(itempCD.getMaloaiSP());
         }
-   
+
 //             listSP = dao.selectAll();
 //        DefaultComboBoxModel cboModel = (DefaultComboBoxModel) CboMaloai.getModel();
 //        cboModel.removeAllElements();
 //        for (Sanpham itempCD : listSP) {
 //            cboModel.addElement(itempCD.getMaLoai());
 //        }
-
 //        System.out.println("Size of listSP: " + listSP.size());
 //        List<Object[]> list = new ArrayList<>();
 //        list = dao.getco();
@@ -113,8 +99,6 @@ public class SanPhamView1 extends javax.swing.JPanel {
 //                        cboModel.addElement(objects.row);
 //
 //        }
-     
-
     }
     // fill dữ liệu lên bảng
 
@@ -549,7 +533,7 @@ public class SanPhamView1 extends javax.swing.JPanel {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblMaNV6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addComponent(jSeparator4)
@@ -560,7 +544,7 @@ public class SanPhamView1 extends javax.swing.JPanel {
                         .addComponent(lblMaNV1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblMaLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(403, 403, 403))
+                        .addGap(355, 355, 355))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -783,9 +767,11 @@ public class SanPhamView1 extends javax.swing.JPanel {
 
     private void CboMaloaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CboMaloaiActionPerformed
         // TODO add your handling code here:
-           row = CboMaloai.getSelectedIndex();
-           System.out.println(row);
-           chonComboBox(row);
+        row = CboMaloai.getSelectedIndex()-1;
+        System.out.println("roo");
+
+        System.out.println(row);
+        chonComboBox(row);
     }//GEN-LAST:event_CboMaloaiActionPerformed
 
 

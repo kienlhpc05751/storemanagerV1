@@ -113,7 +113,7 @@
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="lblMaNV6" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
                                                   <Component id="lblMaSP" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
-                                                  <Component id="jSeparator6" alignment="0" min="-2" pref="379" max="-2" attributes="0"/>
+                                                  <Component id="jSeparator6" alignment="0" min="-2" pref="350" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
@@ -129,7 +129,7 @@
                                       <Component id="lblMaNV1" min="-2" pref="50" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="lblMaLoai" min="-2" pref="50" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="403" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="355" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -160,7 +160,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lblMaNV1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblMaLoai" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblMaLoai" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">

@@ -16,11 +16,9 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
 
     String SELECT_ALL_SQL = "SELECT * FROM Nhanvien";
     public static String SELECT_BY_ID_SQL = "SELECT * FROM nhanvien WHERE MaNV=?";
-    
-    
-    
+
     @Override
-     protected List<NhanVien> selectBySql(String sql, Object... args) {
+    protected List<NhanVien> selectBySql(String sql, Object... args) {
         List<NhanVien> list = new ArrayList<>();
         try {
             ResultSet rs = null;
@@ -31,11 +29,12 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
                     entity.setMaNV(rs.getString("MaNV"));
                     entity.setMatKhau(rs.getString("MatKhau"));
                     entity.setTenNV(rs.getString("tenNV"));
-                    entity.setHinhAnh(rs.getString("hinh"));
                     entity.setNgaySinh(rs.getDate("ngaysinh"));
                     entity.setEmail(rs.getString("Email"));
                     entity.setSDT(rs.getString("phone"));
                     entity.setVaiTro(rs.getBoolean("VaiTro"));
+                    entity.setHinhAnh(rs.getString("hinh"));
+
                     list.add(entity);
                 }
             } finally {
@@ -65,14 +64,17 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
     public void update(NhanVien model) {
         String sql = "update nhanvien set TenNV = ?, Matkhau = ?, NgaySinh = ?, Email = ?, Phone =?, vaiTro =?, Hinh =? where MaNV = ?";
         DBHelper.update(sql,
-                model.getMaNV(),
+//                model.getMaNV(),
                 model.getTenNV(),
                 model.getMatKhau(),
                 model.getNgaySinh(),
                 model.getEmail(),
                 model.getSDT(),
                 model.getVaiTro(),
-                model.getHinhAnh());
+                model.getHinhAnh(),
+                model.getMaNV());
+
+
     }
 
     @Override
@@ -156,7 +158,7 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
             return list.get(0);
 //        return list.size() > 0 ? list.get(0) : null;
         } catch (Exception e) {
-       e.printStackTrace();
+            e.printStackTrace();
         }
         return null;
 
@@ -171,5 +173,4 @@ abstract public class NhanVienDao extends StoreDao<NhanVien, String> {
 //    protected List<NhanVien> selectBySql(String sql, Object... args) {
 //        return null;
 //    }
-
 }
