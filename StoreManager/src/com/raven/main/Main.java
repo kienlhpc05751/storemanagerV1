@@ -7,7 +7,7 @@ package com.raven.main;
 
 import com.raven.event.EventMenuSelected;
 import com.raven.form.Form_1;
-import com.raven.form.Form_2;
+import com.raven.form.HoaDonView;
 import com.raven.form.Form_3;
 import com.raven.form.Form_Home;
 import com.raven.form.NhanVienView;
@@ -30,7 +30,7 @@ public class Main extends javax.swing.JFrame {
      */
     private Form_Home home;
     private Form_1 form1;
-    private Form_2 form2;
+    private HoaDonView form2;
     private Form_3 form3;
     private KhachHangView khachhang;
     private NhanVienView form4;
@@ -43,7 +43,7 @@ public class Main extends javax.swing.JFrame {
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
         form1 = new Form_1();
-        form2 = new Form_2();
+        form2 = new HoaDonView();
         form3 = new Form_3();
         form4 = new NhanVienView();
         khachhang = new KhachHangView();
@@ -58,7 +58,7 @@ public class Main extends javax.swing.JFrame {
                 } else if (index == 1) {
                     setForm(khachhang);
                 } else if (index == 2) {
-                    setForm(khachhang);
+                    setForm(form2);
                 } else if (index == 3) {
                     setForm(form5);
                 } else if (index == 4) {
