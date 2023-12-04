@@ -12,6 +12,7 @@ import com.raven.form.Form_3;
 import com.raven.form.Form_Home;
 import com.raven.form.NhanVienView;
 import com.raven.form.KhachHangView;
+import com.raven.form.Login;
 import com.raven.utils.XImage;
 import java.awt.Color;
 import javax.swing.JComponent;
@@ -31,6 +32,7 @@ public class Main extends javax.swing.JFrame {
     private Form_3 form3;
     private KhachHangView khachhang;
     private NhanVienView form4;
+    private Login loginform;
 //    private NewJFrame fa;
 
     public Main() {

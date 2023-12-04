@@ -5,6 +5,8 @@
 package com.raven.form;
 
 
+import com.raven.dao.HoaDonDAO;
+import com.raven.model.HoaDon;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -311,18 +313,18 @@ public class ChiTietHoaDonView extends javax.swing.JDialog {
     }//GEN-LAST:event_txtMaSPActionPerformed
 
     private void txtMaSPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaSPKeyReleased
-        maSP = txtMaSP.getText().trim();
-        setFormHDCT();
+//        maSP = txtMaSP.getText().trim();
+//        setFormHDCT();
     }//GEN-LAST:event_txtMaSPKeyReleased
 
     private void cboMauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMauActionPerformed
-        listMau = daoMau.getAllExceptByID(listSPCT.get(cboMau.getSelectedIndex()).getMaMau());
-        maMau = listMau.get(0).getMaMau();
+//        listMau = daoMau.getAllExceptByID(listSPCT.get(cboMau.getSelectedIndex()).getMaMau());
+//        maMau = listMau.get(0).getMaMau();
     }//GEN-LAST:event_cboMauActionPerformed
 
     private void cboSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSizeActionPerformed
-        listSize = daoSize.getAllExceptByID(listSPCT.get(cboMau.getSelectedIndex()).getMaSize());
-        maSize = listSize.get(0).getMaSize();
+//        listSize = daoSize.getAllExceptByID(listSPCT.get(cboMau.getSelectedIndex()).getMaSize());
+//        maSize = listSize.get(0).getMaSize();
     }//GEN-LAST:event_cboSizeActionPerformed
 
     private void spnSLStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnSLStateChanged
@@ -335,14 +337,14 @@ public class ChiTietHoaDonView extends javax.swing.JDialog {
     }//GEN-LAST:event_spnSLStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        insert();
-        loadToTableHDCT(maHD);
+//        insert();
+//        loadToTableHDCT(maHD);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        InBill2 bill = new InBill2(null, true);
-        bill.loadToTable(maHD);
-        bill.setVisible(true);
+//        InBill2 bill = new InBill2(null, true);
+//        bill.loadToTable(maHD);
+//        bill.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -415,96 +417,96 @@ public class ChiTietHoaDonView extends javax.swing.JDialog {
     private javax.swing.JTextField txtGiamGia;
     private javax.swing.JTextField txtMaSP;
     // End of variables declaration//GEN-END:variables
-    HoaDonDao dao = new HoaDonDao();
-    List<HoaDon> list = dao.getAllSelect();
-    SanPhamDao daoSP = new SanPhamDao();
-    List<SanPham> listSP = new ArrayList<>();
-    MauDao daoMau = new MauDao();
-    List<Mau> listMau = new ArrayList<>();
-    SizeDao daoSize = new SizeDao();
-    List<Size> listSize = new ArrayList<>();
-    String maHD = null;
-    String maSP;
-    SanPhamChiTietDao daoSPCT = new SanPhamChiTietDao();
-    List<SanPhamChiTiet> listSPCT = daoSPCT.getAllSPById(maSP);
-    int maMau;
-    int maSize;
-    float giamGia;
+//    HoaDonDAO dao = new HoaDonDAO();
+//    List<HoaDon> list = dao.getAllSelect();
+//    SanPhamDAO daoSP = new SanPhamDAO();
+//    List<SanPham> listSP = new ArrayList<>();
+//    MauDao daoMau = new MauDao();
+//    List<Mau> listMau = new ArrayList<>();
+//    SizeDao daoSize = new SizeDao();
+//    List<Size> listSize = new ArrayList<>();
+//    String maHD = null;
+//    String maSP;
+//    SanPhamChiTietDao daoSPCT = new SanPhamChiTietDao();
+//    List<SanPhamChiTiet> listSPCT = daoSPCT.getAllSPById(maSP);
+//    int maMau;
+//    int maSize;
+//    float giamGia;
 
-    public void setFormHDCT() {
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-        DefaultComboBoxModel model1 = new DefaultComboBoxModel();
-        listSPCT = daoSPCT.getAllSPById(maSP);
-        for (SanPhamChiTiet sp : listSPCT) {
-            listSP = daoSP.getAllExceptByID(sp.getMaSP());
-            listMau = daoMau.getAllExceptByID(sp.getMaMau());
-            listSize = daoSize.getAllExceptByID(sp.getMaSize());
-            if (maSP.equals(sp.getMaSP())) {
-                lblTenSP.setText(listSP.get(0).getTenSP());
-                model.addElement(listMau.get(0).getTenMau());
-                maMau = sp.getMaMau();
-                maSize = sp.getMaSize();
-                model1.addElement(listSize.get(0).getTenSize());
-            }
-            lblGia.setText(String.valueOf(sp.getDonGia()));
-            cboMau.setModel(model);
-            cboSize.setModel(model1);
-            giamGia = sp.giamGia();
-        }
-    }
-
-    public HoaDon getFormHDCT() {
-        HoaDon hd = new HoaDon();
-        hd.setMaHD(lblMaHDCT.getText().trim());
-        hd.setMaSP(txtMaSP.getText().trim());
-        hd.setSoLuong((int) spnSL.getValue());
-        hd.setGiamGia(Float.parseFloat(txtGiamGia.getText()));
-        hd.setGia(Float.parseFloat(lblGia.getText()));
-        hd.setMaMau(maMau);
-        hd.setMaSize(maSize);
-        System.out.println(maMau);
-        System.out.println(maSize);
-        return hd;
-    }
-    int soLuong;
-
-    public void insert() {
-        dao.insetHDCYT(getFormHDCT());
-        SanPhamChiTiet spc = daoSPCT.getList(maSP, maMau, maSize);
-        soLuong = (int) spnSL.getValue();
-        daoSPCT.updateSL(spc.getSoLuong() - soLuong, maSP, maMau, maSize);
-        System.out.println(spc.getSoLuong() - soLuong);
-    }
-
-    public boolean checkSL() {
-        if ((int) spnSL.getValue() <= 0) {
-            JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 0");
-        }
-        return true;
-    }
-
-    public void loadToTableHDCT(String ma) {
-        String row[] = {"Mã HD", "Tên SP", "Màu", "Size", "Giá", "Số lượng", "Giảm giá", "Thành tiền", "Hình thức thanh toán"};
-        DefaultTableModel model = new DefaultTableModel(row, 0);
-        list = dao.getAllSelectHDCT(ma);
-        lblMaHDCT.setText(ma);
-        maHD = ma;
-        for (HoaDon hd : list) {
-            listSP = daoSP.getAllExceptByID(hd.getMaSP());
-            listMau = daoMau.getAllExceptByID(hd.getMaMau());
-            listSize = daoSize.getAllExceptByID(hd.getMaSize());
-            model.addRow(new Object[]{
-                hd.getMaHD(),
-                listSP.get(0).getTenSP(),
-                listMau.get(0).getTenMau(),
-                listSize.get(0).getTenSize(),
-                listSP.get(0).getGia(),
-                hd.getSoLuong(),
-                hd.getGiamGia(),
-                (hd.getSoLuong() * listSP.get(0).getGia()) * ((hd.getGiamGia()/100) + 1),
-                hd.getHinhThucTT()
-            });
-        }
-        tblCTHD.setModel(model);
-    }
+//    public void setFormHDCT() {
+//        DefaultComboBoxModel model = new DefaultComboBoxModel();
+//        DefaultComboBoxModel model1 = new DefaultComboBoxModel();
+//        listSPCT = daoSPCT.getAllSPById(maSP);
+//        for (SanPhamChiTiet sp : listSPCT) {
+//            listSP = daoSP.getAllExceptByID(sp.getMaSP());
+//            listMau = daoMau.getAllExceptByID(sp.getMaMau());
+//            listSize = daoSize.getAllExceptByID(sp.getMaSize());
+//            if (maSP.equals(sp.getMaSP())) {
+//                lblTenSP.setText(listSP.get(0).getTenSP());
+//                model.addElement(listMau.get(0).getTenMau());
+//                maMau = sp.getMaMau();
+//                maSize = sp.getMaSize();
+//                model1.addElement(listSize.get(0).getTenSize());
+//            }
+//            lblGia.setText(String.valueOf(sp.getDonGia()));
+//            cboMau.setModel(model);
+//            cboSize.setModel(model1);
+//            giamGia = sp.giamGia();
+//        }
+//    }
+//
+//    public HoaDon getFormHDCT() {
+//        HoaDon hd = new HoaDon();
+//        hd.setMaHD(lblMaHDCT.getText().trim());
+//        hd.setMaSP(txtMaSP.getText().trim());
+//        hd.setSoLuong((int) spnSL.getValue());
+//        hd.setGiamGia(Float.parseFloat(txtGiamGia.getText()));
+//        hd.setGia(Float.parseFloat(lblGia.getText()));
+//        hd.setMaMau(maMau);
+//        hd.setMaSize(maSize);
+//        System.out.println(maMau);
+//        System.out.println(maSize);
+//        return hd;
+//    }
+//    int soLuong;
+//
+//    public void insert() {
+//        dao.insetHDCYT(getFormHDCT());
+//        SanPhamChiTiet spc = daoSPCT.getList(maSP, maMau, maSize);
+//        soLuong = (int) spnSL.getValue();
+//        daoSPCT.updateSL(spc.getSoLuong() - soLuong, maSP, maMau, maSize);
+//        System.out.println(spc.getSoLuong() - soLuong);
+//    }
+//
+//    public boolean checkSL() {
+//        if ((int) spnSL.getValue() <= 0) {
+//            JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 0");
+//        }
+//        return true;
+//    }
+//
+//    public void loadToTableHDCT(String ma) {
+//        String row[] = {"Mã HD", "Tên SP", "Màu", "Size", "Giá", "Số lượng", "Giảm giá", "Thành tiền", "Hình thức thanh toán"};
+//        DefaultTableModel model = new DefaultTableModel(row, 0);
+//        list = dao.getAllSelectHDCT(ma);
+//        lblMaHDCT.setText(ma);
+//        maHD = ma;
+//        for (HoaDon hd : list) {
+//            listSP = daoSP.getAllExceptByID(hd.getMaSP());
+//            listMau = daoMau.getAllExceptByID(hd.getMaMau());
+//            listSize = daoSize.getAllExceptByID(hd.getMaSize());
+//            model.addRow(new Object[]{
+//                hd.getMaHD(),
+//                listSP.get(0).getTenSP(),
+//                listMau.get(0).getTenMau(),
+//                listSize.get(0).getTenSize(),
+//                listSP.get(0).getGia(),
+//                hd.getSoLuong(),
+//                hd.getGiamGia(),
+//                (hd.getSoLuong() * listSP.get(0).getGia()) * ((hd.getGiamGia()/100) + 1),
+//                hd.getHinhThucTT()
+//            });
+//        }
+//        tblCTHD.setModel(model);
+//    }
 }

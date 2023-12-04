@@ -6,18 +6,24 @@ package com.raven.dao;
 
 import com.raven.db.DBHelper;
 import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+
 //import javax.mail.Authenticator;
 import java.util.Properties;
 import java.util.Random;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import javax.mail.Message;
-//import javax.mail.MessagingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.mail.Message;
+import javax.mail.MessagingException;
 //import javax.mail.PasswordAuthentication;
-//import javax.mail.Session;
-//import javax.mail.Transport;
-//import javax.mail.internet.InternetAddress;
-//import javax.mail.internet.MimeMessage;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 
 /**
@@ -62,46 +68,47 @@ public class FogotPasswordDAO {
         DBHelper.update(UPDATE_PASSWORD_SQL, newPass, key);
     }
 
-//    public void sendmail(String email, Object... args) {
-//        try {
-//            // Set default email account
-//            String fmail = "lamkimuyen2015@gmail.com";
-//            String fpass ="brwxhldclvujkjya"; //"swzbpdhfcijzxipy";
-//            // Configure the SMTP Server properties
-//            Properties props = new Properties();
-//            props.put("mail.smtp.host", "smtp.gmail.com");
-//            props.put("mail.smtp.port", "587");
-//            props.put("mail.smtp.auth", "true");
-//            props.put("mail.smtp.starttls.enable", "true");
-//            // Create a new session with an authenticator
-//            
-//            Session ss = Session.getDefaultInstance(props, new Authenticator() {
-//                @Override
-//                protected PasswordAuthentication getPasswordAuthentication() {
-//                    return new PasswordAuthentication(fmail, fpass);
-//                }
-//            });
-//            rs = DBHelper.query(SELECT_EMAIL_SQL, email);
-//            try {
-//                while (rs.next()) {
-//                    // Create a new email message
-//                    MimeMessage msg = new MimeMessage(ss);
-//                    msg.setFrom(new InternetAddress(fmail));
-//                    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(rs.getString("Email")));
-//                    // Set subject, body message
-//                    String subject = "Password has been reset - Cửa Hàng Thời Trang Lightning Strike";
-//                    String body = message(email, rs.getString("MaNV"), rs.getString("HoTen"));
-//                    msg.setSubject(subject, "utf-8");
-//                    msg.setContent(body, "text/html;charset=utf-8");
-//                    // Send the email
-//                    Transport.send(msg);
-//                }
-//            } finally {
-//                rs.getStatement().getConnection().close();
-//            }
-//        } catch (SQLException | MessagingException ex) {
-//            ex.printStackTrace();
-//            throw new RuntimeException(ex);
-//        }
-//    }
+    public void sendmail(String email, Object... args) throws AddressException {
+        try {
+            // Set default email account
+            String fmail = "lamkimuyen2015@gmail.com";
+            String fpass ="qviiuxtivsjprdde"; //"swzbpdhfcijzxipy";
+            // Configure the SMTP Server properties
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            // Create a new session with an authenticator
+            
+            Session ss = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+                protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                    return new javax.mail.PasswordAuthentication(fmail,fpass);
+                }
+            });
+            rs = DBHelper.query(SELECT_EMAIL_SQL, email);
+            try {
+                while (rs.next()) {
+                    // Create a new email message
+                    MimeMessage msg = new MimeMessage(ss);
+                    msg.setFrom(new InternetAddress(fmail));
+                    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(rs.getString("Email")));
+                    // Set subject, body message
+                    String subject = "Password has been reset - Cửa Hàng Thời Trang Lightning Strike";
+                    String body = message(email, rs.getString("MaNV"), rs.getString("HoTen"));
+                    msg.setSubject(subject, "utf-8");
+                    msg.setContent(body, "text/html;charset=utf-8");
+                    // Send the email
+                    Transport.send(msg);
+                }
+            } catch (MessagingException ex) {
+                Logger.getLogger(FogotPasswordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
 }

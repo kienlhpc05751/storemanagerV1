@@ -677,7 +677,7 @@ public class NhanVienView extends javax.swing.JPanel {
         txtMaNV.setText(model.getMaNV());
         txtTenNV.setText(model.getTenNV());
         txtMatKhau.setText(model.getMatKhau());
-        jDateChooser1.setDate(model.getNgaySinh());
+       // jDateChooser1.setDate(model.getNgaySinh());
         txtEmail.setText(model.getEmail());
         txtSDT.setText(model.getSDT());
         cboQuanLy.setSelected(model.getVaiTro());
@@ -695,7 +695,7 @@ public class NhanVienView extends javax.swing.JPanel {
         model.setMaNV(txtMaNV.getText());
         model.setTenNV(txtTenNV.getText());
         model.setMatKhau(new String(txtMatKhau.getPassword()));
-        model.setNgaySinh(jDateChooser1.getDate());
+       // model.setNgaySinh(jDateChooser1.getDate());
         model.setEmail(txtEmail.getText());
         model.setSDT(txtSDT.getText());
         model.setVaiTro(cboQuanLy.isSelected());

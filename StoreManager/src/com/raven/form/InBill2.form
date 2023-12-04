@@ -30,7 +30,7 @@
                   <Component id="jLabel1" alignment="0" min="-2" pref="299" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="317" max="32767" attributes="0"/>
+              <EmptySpace pref="57" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="lblNgayIn" alignment="0" max="32767" attributes="0"/>
                   <Component id="lblMaNV" alignment="0" pref="208" max="32767" attributes="0"/>
@@ -75,7 +75,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel6" min="-2" pref="47" max="-2" attributes="0"/>
-              <EmptySpace pref="547" max="32767" attributes="0"/>
+              <EmptySpace pref="425" max="32767" attributes="0"/>
               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -86,7 +86,7 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Times New Roman" size="18" style="0"/>
+          <Font name="Segoe UI" size="18" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="S&#x1ed1; DT: 0899672816"/>
       </Properties>
@@ -94,7 +94,7 @@
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Times New Roman" size="18" style="0"/>
+          <Font name="Segoe UI" size="18" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="&#x110;&#x1ecb;a ch&#x1ec9;:  Tr&#x1b0;&#x1edd;ng Th&#x1ea1;nh, C&#xe1;i r&#x103;ng, C&#x1ea7;n Th&#x1a1;."/>
       </Properties>
@@ -102,7 +102,7 @@
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Times New Roman" size="24" style="1"/>
+          <Font name="Segoe UI" size="36" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Lightning Strike Fashion Clothing Store"/>
       </Properties>
@@ -110,7 +110,7 @@
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Times New Roman" size="24" style="1"/>
+          <Font name="Segoe UI" size="24" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="H&#xf3;a &#x111;&#x1a1;n Mua H&#xe0;ng"/>
@@ -119,7 +119,7 @@
     <Component class="javax.swing.JLabel" name="lblMaNV">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Times New Roman" size="18" style="0"/>
+          <Font name="Segoe UI" size="14" style="2"/>
         </Property>
         <Property name="text" type="java.lang.String" value="M&#xe3; NV: "/>
       </Properties>
@@ -127,7 +127,7 @@
     <Component class="javax.swing.JLabel" name="lblNgayIn">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Times New Roman" size="18" style="0"/>
+          <Font name="Segoe UI" size="14" style="2"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Ng&#xe0;y: "/>
       </Properties>
