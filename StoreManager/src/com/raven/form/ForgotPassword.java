@@ -6,6 +6,7 @@ package com.raven.form;
 
 import com.raven.dao.FogotPasswordDAO;
 import com.raven.utils.MsgBox;
+import com.raven.utils.XDialogHelper;
 
 /**
  *
@@ -139,17 +140,19 @@ public class ForgotPassword extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void resetPass(){
-        try{
-            FogotPasswordDAO fgpass=new FogotPasswordDAO();
-            fgpass.update(txtEmail.getText());
-            fgpass.sendmail(txtEmail.getText());
-            System.out.println("The E-mail há been sent successfully!");
-            MsgBox.alert(this,"Email has been sent, Please check!");
-        }catch(Exception e){
+     private void resetPass() {
+        try {
+            FogotPasswordDAO qmk = new FogotPasswordDAO();
+            qmk.update(txtEmail.getText());
+            qmk.sendmail(txtEmail.getText());
+
+            System.out.println("The e-mail has been sent successfully!");
+            XDialogHelper.alert(this, "Email đã được gửi thành công. Vui lòng kiểm tra ngay!");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
                 Login LoginFrame = new Login();
                 LoginFrame.setVisible(true);

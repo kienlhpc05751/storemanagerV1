@@ -5,21 +5,14 @@
 package com.raven.dao;
 
 import com.raven.db.DBHelper;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
-
-//import javax.mail.Authenticator;
+import javax.mail.Authenticator;
 import java.util.Properties;
 import java.util.Random;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-//import javax.mail.PasswordAuthentication;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -68,11 +61,11 @@ public class FogotPasswordDAO {
         DBHelper.update(UPDATE_PASSWORD_SQL, newPass, key);
     }
 
-    public void sendmail(String email, Object... args) throws AddressException {
+    public void sendmail(String email, Object... args) {
         try {
             // Set default email account
             String fmail = "lamkimuyen2015@gmail.com";
-            String fpass ="qviiuxtivsjprdde"; //"swzbpdhfcijzxipy";
+            String fpass ="brwxhldclvujkjya"; //"swzbpdhfcijzxipy";
             // Configure the SMTP Server properties
             Properties props = new Properties();
             props.put("mail.smtp.host", "smtp.gmail.com");
@@ -81,9 +74,10 @@ public class FogotPasswordDAO {
             props.put("mail.smtp.starttls.enable", "true");
             // Create a new session with an authenticator
             
-            Session ss = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-                protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                    return new javax.mail.PasswordAuthentication(fmail,fpass);
+            Session ss = Session.getDefaultInstance(props, new Authenticator() {
+                
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(fmail, fpass);
                 }
             });
             rs = DBHelper.query(SELECT_EMAIL_SQL, email);
@@ -101,12 +95,10 @@ public class FogotPasswordDAO {
                     // Send the email
                     Transport.send(msg);
                 }
-            } catch (MessagingException ex) {
-                Logger.getLogger(FogotPasswordDAO.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 rs.getStatement().getConnection().close();
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | MessagingException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
