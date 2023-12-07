@@ -617,6 +617,7 @@ public class NhanVienView extends javax.swing.JPanel {
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         clear();
+        lblHinhAnh.setIcon(null);
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
@@ -742,6 +743,7 @@ public class NhanVienView extends javax.swing.JPanel {
         if (model.getHinhAnh() != null) {
             lblHinhAnh.setToolTipText(model.getHinhAnh());
             lblHinhAnh.setIcon(XImage.read(model.getHinhAnh()));
+            
         }
     }
 
